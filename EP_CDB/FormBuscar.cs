@@ -41,62 +41,41 @@ namespace EP_CDB
         }
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            lbResultados.Items.Clear();
             string c = tbDatos.Text.Trim();
+            var resultados = Enumerable.Empty<Transaccion>();
             if (rbOrigen.Checked)
             {
-                porOrigen(c);
+                resultados = TodasLasEtructuras().Where(t => t.Origen.Trim().Equals(c, StringComparison.OrdinalIgnoreCase));
             }
             else if (rbDestino.Checked)
             {
-                porDestino(c);
+                resultados = TodasLasEtructuras().Where(t => t.Destino.Trim().Equals(c, StringComparison.OrdinalIgnoreCase));
             }
             else MessageBox.Show("Selecciona origen o destino");
-        }
-        public void porOrigen(string ciudad)
-        {
-            lbResultados.Items.Clear();
-            var resultados = TodasLasEtructuras().Where(t => t.Origen.Trim().Equals(ciudad, StringComparison.OrdinalIgnoreCase));
             if (!resultados.Any())
             {
-                lbResultados.Items.Add("No se encontraron transacciones para ese origen.");
+                lbResultados.Items.Add("No se encontraron transacciones para esa ciudad.");
                 return;
             }
-            foreach (Transaccion t in resultados)
-            {
-                lbResultados.Items.Add(t.ToString());
-            }
+            LlenadoLB(resultados);
         }
-        public void porDestino(string ciudad)
-        {
-            lbResultados.Items.Clear();
-            var resultados = TodasLasEtructuras().Where(t => t.Destino.Trim().Equals(ciudad, StringComparison.OrdinalIgnoreCase));
-            if (!resultados.Any())
-            {
-                lbResultados.Items.Add("No se encontraron transacciones para ese destino.");
-                return;
-            }
-            foreach (Transaccion t in resultados)
-            {
-                lbResultados.Items.Add(t.ToString());
-            }
-        }
-
         private void btnBuscarCod_Click(object sender, EventArgs e)
         {
+            lbResultados.Items.Clear();
             string codigo = txtBusqueda.Text.Trim();
             if (string.IsNullOrWhiteSpace(codigo))
             {
                 MessageBox.Show("Ingrese el código de la operación.");
                 return;
             }
-            Transaccion transaccion = procesador.buscar(codigo);
-            if (transaccion != null)
+            Transaccion transac = procesador.buscar(codigo);
+            if (transac != null)
             {
-                lbResultados.Items.Clear();
-                lbResultados.Items.Add(transaccion.ToString());
+                lbResultados.Items.Add(transac.ToString());
                 return;
             }
-            MessageBox.Show("No se encontró la operación.");
+            lbResultados.Items.Add("No se encontró la operación.");
         }
 
         private void btnBuscarMonto_Click(object sender, EventArgs e)
@@ -126,103 +105,70 @@ namespace EP_CDB
                 lbResultados.Items.Add("No se encontraron transacciones con el monto especificado.");
                 return;
             }
-            foreach (Transaccion t in resultados)
-            {
-                lbResultados.Items.Add(t.ToString());
-            }
+            LlenadoLB(resultados);
         }
 
         private void btnBuscarTipo_Click(object sender, EventArgs e)
         {
             lbResultados.Items.Clear();
-            if (cmbTipo.SelectedIndex == 0)
+            var results = TodasLasEtructuras().Where(t =>
             {
-                var resultados = TodasLasEtructuras().Where(t => t.Tipo == TipoTransaccion.Abono);
-                if (!resultados.Any())
+                switch (cmbTipo.SelectedIndex)
                 {
-                    lbResultados.Items.Add("No se encontraron transacciones de tipo Abono.");
-                    return;
+                    case 0:
+                        return t.Tipo == TipoTransaccion.Abono;
+                    case 1:
+                        return t.Tipo == TipoTransaccion.Retiro;
+                    case 2:
+                        return t.Tipo == TipoTransaccion.Transferencia;
+                    default:
+                        return false;
                 }
-                foreach (Transaccion t in resultados)
-                {
-                    lbResultados.Items.Add(t.ToString());
-                }
-            }
-            else if (cmbTipo.SelectedIndex == 1)
+            });
+            if (!results.Any())
             {
-                var resultados = TodasLasEtructuras().Where(t => t.Tipo == TipoTransaccion.Retiro);
-                if (!resultados.Any())
-                {
-                    lbResultados.Items.Add("No se encontraron transacciones de tipo Retiro.");
-                    return;
-                }
-                foreach (Transaccion t in resultados)
-                {
-                    lbResultados.Items.Add(t.ToString());
-                }
+                lbResultados.Items.Add($"No se encontraron transacciones de tipo {cmbTipo.SelectedItem.ToString()}");
+                return;
             }
-            else if (cmbTipo.SelectedIndex == 2)
-            {
-                var resultados = TodasLasEtructuras().Where(t => t.Tipo == TipoTransaccion.Transferencia);
-                if (!resultados.Any())
-                {
-                    lbResultados.Items.Add("No se encontraron transacciones de tipo Transferencia.");
-                    return;
-                }
-                foreach (Transaccion t in resultados)
-                {
-                    lbResultados.Items.Add(t.ToString());
-                }
-            }
+            LlenadoLB(results);
         }
         private void btnBuscarEstado_Click(object sender, EventArgs e)
         {
             lbResultados.Items.Clear();
-            if (cbEstados.SelectedIndex == 0)
+            var results = TodasLasEtructuras().Where(t =>
             {
-                var resultados = TodasLasEtructuras().Where(t => t.Estado == EstadoTransaccion.Pendiente);
-                if (!resultados.Any())
+                switch (cbEstados.SelectedIndex)
                 {
-                    lbResultados.Items.Add("No se encontraron transacciones pendientes.");
-                    return;
+                    case 0:
+                        return t.Estado == EstadoTransaccion.Pendiente;
+                    case 1:
+                        return t.Estado == EstadoTransaccion.Procesada;
+                    case 2:
+                        return t.Estado == EstadoTransaccion.Revertida;
+                    default:
+                        return false;
                 }
-                foreach (Transaccion t in resultados)
-                {
-                    lbResultados.Items.Add(t.ToString());
-                }
-            }
-            else if (cbEstados.SelectedIndex == 1)
+            });
+            if (!results.Any())
             {
-                var resultados = TodasLasEtructuras().Where(t => t.Estado == EstadoTransaccion.Procesada);
-                if (!resultados.Any())
-                {
-                    lbResultados.Items.Add("No se encontraron transacciones procesadas.");
-                    return;
-                }
-                foreach (Transaccion t in resultados)
-                {
-                    lbResultados.Items.Add(t.ToString());
-                }
+                lbResultados.Items.Add($"No se encontraron transacciones {cbEstados.SelectedItem.ToString()}");
+                return;
             }
-            else if (cbEstados.SelectedIndex == 2)
-            {
-                var resultados = TodasLasEtructuras().Where(t => t.Estado == EstadoTransaccion.Revertida);
-                if (!resultados.Any())
-                {
-                    lbResultados.Items.Add("No se encontraron transacciones revertidas.");
-                    return;
-                }
-                foreach (Transaccion t in resultados)
-                {
-                    lbResultados.Items.Add(t.ToString());
-                }
-            }
+            LlenadoLB(results);
         }
         private void btnBuscarFecha_Click(object sender, EventArgs e)
         {
             lbResultados.Items.Clear();
-            DateTime seleccion = DTPFecha.Value.Date;
-            var resultados = TodasLasEtructuras().Where(t => t.Fecha.Date == seleccion);
+            DateTime f;
+            if (checkBoxHoy.Checked == true)
+            {
+                f = DateTime.Today;
+            }
+            else
+            {
+                f = DTPFecha.Value.Date;
+            }
+            var resultados = TodasLasEtructuras().Where(t => t.Fecha.Date == f);
             if (!resultados.Any())
             {
                 lbResultados.Items.Add("No se encontraron transacciones para la fecha seleccionada.");
@@ -231,6 +177,13 @@ namespace EP_CDB
             foreach (Transaccion t in resultados)
             {
                 lbResultados.Items.Add($"{t.Fecha.ToString()}: {t.ToString()}");
+            }
+        }
+        public void LlenadoLB(IEnumerable<Transaccion> results)
+        {
+            foreach (Transaccion t in results)
+            {
+                lbResultados.Items.Add(t.ToString());
             }
         }
         private void DTPFecha_ValueChanged(object sender, EventArgs e)

@@ -36,7 +36,7 @@ namespace EP_CDB.CajaArequipa.Estructuras
             cont--;
             return transac;
         }
-        public Transaccion getCima()
+        public Transaccion Peek()
         {
             if (esVacio()) return null;
             return cima.dato;

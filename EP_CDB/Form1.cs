@@ -94,7 +94,7 @@ namespace EP_CDB
                 fecha = DTPFecha.Value;
             }
             procesador.elGrafo.AgregarRuta(txtOrigen.Text.Trim(), txtDestino.Text.Trim(), false);
-            return new Transaccion(txtCodigo.Text.Trim(),txtOrigen.Text.Trim(),txtDestino.Text.Trim(),monto,tipo, 
+            return new Transaccion(txtCodigo.Text.Trim(),txtOrigen.Text.Trim(),txtDestino.Text.Trim(),monto,tipo,
                 EstadoTransaccion.Pendiente,fecha);
         }
 
@@ -162,7 +162,7 @@ namespace EP_CDB
             string codigo;
             do
             {
-                codigo = "(415)" + random.Next(100000, 999999).ToString();
+                codigo = "(415)" + random.Next(10000, 999999).ToString();
             }
             while (procesador.buscar(codigo) != null);
             return codigo;

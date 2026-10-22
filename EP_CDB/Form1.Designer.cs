@@ -55,15 +55,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.gpRegistro = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.checkBoxHoy = new System.Windows.Forms.CheckBox();
+            this.DTPFecha = new System.Windows.Forms.DateTimePicker();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.grafoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gpNoti = new System.Windows.Forms.GroupBox();
-            this.DTPFecha = new System.Windows.Forms.DateTimePicker();
-            this.checkBoxHoy = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOperaciones)).BeginInit();
             this.gpRegistro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -270,18 +270,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 254);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 25;
-            this.label1.Text = "Por procesar:";
+            this.label1.Text = "Pendientes:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 404);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(194, 13);
+            this.label2.Size = new System.Drawing.Size(144, 13);
             this.label2.TabIndex = 26;
-            this.label2.Text = "Listas para control Z (revertir operación)";
+            this.label2.Text = "Listas para control Z (revertir)";
             // 
             // label3
             // 
@@ -314,6 +314,33 @@
             this.gpRegistro.TabIndex = 28;
             this.gpRegistro.TabStop = false;
             this.gpRegistro.Text = "Nueva operacion";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(179, 33);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(37, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Fecha";
+            // 
+            // checkBoxHoy
+            // 
+            this.checkBoxHoy.AutoSize = true;
+            this.checkBoxHoy.Location = new System.Drawing.Point(244, 80);
+            this.checkBoxHoy.Name = "checkBoxHoy";
+            this.checkBoxHoy.Size = new System.Drawing.Size(45, 17);
+            this.checkBoxHoy.TabIndex = 12;
+            this.checkBoxHoy.Text = "Hoy";
+            this.checkBoxHoy.UseVisualStyleBackColor = true;
+            // 
+            // DTPFecha
+            // 
+            this.DTPFecha.Location = new System.Drawing.Point(182, 48);
+            this.DTPFecha.Name = "DTPFecha";
+            this.DTPFecha.Size = new System.Drawing.Size(200, 20);
+            this.DTPFecha.TabIndex = 11;
+            this.DTPFecha.ValueChanged += new System.EventHandler(this.DTPFecha_ValueChanged);
             // 
             // pictureBox1
             // 
@@ -371,33 +398,6 @@
             this.gpNoti.TabIndex = 31;
             this.gpNoti.TabStop = false;
             this.gpNoti.Text = "Estado";
-            // 
-            // DTPFecha
-            // 
-            this.DTPFecha.Location = new System.Drawing.Point(182, 48);
-            this.DTPFecha.Name = "DTPFecha";
-            this.DTPFecha.Size = new System.Drawing.Size(200, 20);
-            this.DTPFecha.TabIndex = 11;
-            this.DTPFecha.ValueChanged += new System.EventHandler(this.DTPFecha_ValueChanged);
-            // 
-            // checkBoxHoy
-            // 
-            this.checkBoxHoy.AutoSize = true;
-            this.checkBoxHoy.Location = new System.Drawing.Point(244, 80);
-            this.checkBoxHoy.Name = "checkBoxHoy";
-            this.checkBoxHoy.Size = new System.Drawing.Size(45, 17);
-            this.checkBoxHoy.TabIndex = 12;
-            this.checkBoxHoy.Text = "Hoy";
-            this.checkBoxHoy.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(179, 33);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(37, 13);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Fecha";
             // 
             // Form1
             // 
