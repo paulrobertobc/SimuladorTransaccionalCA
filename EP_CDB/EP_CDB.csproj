@@ -53,7 +53,7 @@
     <Compile Include="CajaArequipa\Estructuras\Pila.cs" />
     <Compile Include="CajaArequipa\Estructuras\Ruta.cs" />
     <Compile Include="CajaArequipa\Modelos\Transaccion.cs" />
-    <Compile Include="CajaArequipa\Servicios\ProcesadorTransacciones.cs" />
+    <Compile Include="CajaArequipa\Servicios\Procesador.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -25,14 +25,14 @@ namespace EP_CDB.CajaArequipa.Estructuras
             nodos = new Dictionary<string, Nodo>(StringComparer.OrdinalIgnoreCase);
             rutas = new List<Ruta>();
         }
-        public void AgregarAgencia(string agencia)
+        public void agregarAgencia(string agencia)
         {
             if (!nodos.ContainsKey(agencia)) nodos.Add(agencia, new Nodo(agencia));
         }
-        public void AgregarRuta(string origen,string destino,bool estaConectada = true)
+        public void agregarRuta(string origen,string destino,bool estaConectada = true)
         {
-            AgregarAgencia(origen);
-            AgregarAgencia(destino);
+            agregarAgencia(origen);
+            agregarAgencia(destino);
 
             bool existe = rutas.Exists(r =>(r.Origen.Equals(origen,StringComparison.OrdinalIgnoreCase)
             && r.Destino.Equals(destino, StringComparison.OrdinalIgnoreCase))
@@ -45,7 +45,7 @@ namespace EP_CDB.CajaArequipa.Estructuras
             nodos[origen].Vecinos.Add(nodos[destino]);
             nodos[destino].Vecinos.Add(nodos[origen]);
         }
-        public bool CambiarEstadoRuta(string origen,string destino,bool nuevoEst)
+        public bool cambiarEstadoRuta(string origen,string destino,bool nuevoEst)
         {
             Ruta ruta = rutas.Find(r =>(r.Origen.Equals(origen,StringComparison.OrdinalIgnoreCase)
             && r.Destino.Equals(destino,StringComparison.OrdinalIgnoreCase))
@@ -58,7 +58,7 @@ namespace EP_CDB.CajaArequipa.Estructuras
         }
         public List<string> ObtenerAgencias() => nodos.Keys.ToList();
         public List<Ruta> ObtenerTodasLasRutas() => new List<Ruta>(rutas);
-        public List<string> obtenerCiudades()
+        public List<string> ObtenerCiudades()
         {
             HashSet<string> ciudades = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (Ruta ruta in rutas)

@@ -51,7 +51,7 @@ namespace EP_CDB.CajaArequipa.Estructuras
             if (esVacio()) return null;
             return frente.dato;
         }
-        public IEnumerator<Transaccion> GetEnumerator()
+        public IEnumerator<Transaccion> GetEnumerator()// le ponemos el get enumerator para que haya uso de foreach 
         {
             Nodo actual = frente;
             while (actual != null)

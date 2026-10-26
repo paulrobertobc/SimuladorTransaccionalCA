@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lblTituloGrafo = new System.Windows.Forms.Label();
-            this.cmbAgenciaGrafo = new System.Windows.Forms.ComboBox();
+            this.cbAgenciaGrafo = new System.Windows.Forms.ComboBox();
             this.btnConsultaRutas = new System.Windows.Forms.Button();
             this.btnAlternarConexion = new System.Windows.Forms.Button();
             this.lstRutasGrafo = new System.Windows.Forms.ListBox();
@@ -50,11 +50,11 @@
             // 
             // cmbAgenciaGrafo
             // 
-            this.cmbAgenciaGrafo.FormattingEnabled = true;
-            this.cmbAgenciaGrafo.Location = new System.Drawing.Point(12, 49);
-            this.cmbAgenciaGrafo.Name = "cmbAgenciaGrafo";
-            this.cmbAgenciaGrafo.Size = new System.Drawing.Size(121, 21);
-            this.cmbAgenciaGrafo.TabIndex = 1;
+            this.cbAgenciaGrafo.FormattingEnabled = true;
+            this.cbAgenciaGrafo.Location = new System.Drawing.Point(12, 49);
+            this.cbAgenciaGrafo.Name = "cmbAgenciaGrafo";
+            this.cbAgenciaGrafo.Size = new System.Drawing.Size(121, 21);
+            this.cbAgenciaGrafo.TabIndex = 1;
             // 
             // btnConsultaRutas
             // 
@@ -120,7 +120,7 @@
             this.Controls.Add(this.lstRutasGrafo);
             this.Controls.Add(this.btnAlternarConexion);
             this.Controls.Add(this.btnConsultaRutas);
-            this.Controls.Add(this.cmbAgenciaGrafo);
+            this.Controls.Add(this.cbAgenciaGrafo);
             this.Controls.Add(this.lblTituloGrafo);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -137,7 +137,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblTituloGrafo;
-        private System.Windows.Forms.ComboBox cmbAgenciaGrafo;
+        private System.Windows.Forms.ComboBox cbAgenciaGrafo;
         private System.Windows.Forms.Button btnConsultaRutas;
         private System.Windows.Forms.Button btnAlternarConexion;
         private System.Windows.Forms.ListBox lstRutasGrafo;

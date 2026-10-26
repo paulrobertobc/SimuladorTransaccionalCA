@@ -16,16 +16,16 @@ namespace EP_CDB
 {
     public partial class Form1 : Form
     {
-        private ProcesadorTransacciones procesador;
+        private Procesador procesador;
         public Form1()
         {
             InitializeComponent();
-            procesador = new ProcesadorTransacciones();
-            cmbTipo.Items.Clear();
-            cmbTipo.Items.Add("Abono");
-            cmbTipo.Items.Add("Retiro");
-            cmbTipo.Items.Add("Transferencia");
-            cmbTipo.SelectedIndex = 0;
+            procesador = new Procesador();
+            cbTipo.Items.Clear();
+            cbTipo.Items.Add("Abono");
+            cbTipo.Items.Add("Retiro");
+            cbTipo.Items.Add("Transferencia");
+            cbTipo.SelectedIndex = 0;
             dgvOperaciones.AutoGenerateColumns = false;
             dgvOperaciones.ReadOnly = true;
             dgvOperaciones.Columns.Clear();
@@ -37,17 +37,17 @@ namespace EP_CDB
             dgvOperaciones.Columns.Add("Estado", "Estado");
             dgvOperaciones.Columns.Add("Fecha", "Fecha");
 
-            procesador.elGrafo.AgregarRuta("Arequipa", "Lima", true);//precargamos el grafo con ciudades y conexiones de rutas
-            procesador.elGrafo.AgregarRuta("Arequipa", "Cuzco", false);
-            procesador.elGrafo.AgregarRuta("Cuzco", "Puno", true);
-            procesador.elGrafo.AgregarRuta("Lima", "Puno", false);
-            procesador.elGrafo.AgregarRuta("Lima", "Ica", true);
-            procesador.elGrafo.AgregarRuta("Cajamarca", "Lima", true);
-            procesador.elGrafo.AgregarRuta("Cajamarca", "Piura", false);
-            procesador.elGrafo.AgregarRuta("Arequipa", "Cuzco", false);
-            procesador.elGrafo.AgregarRuta("Cuzco", "Puno", true);
+            procesador.elGrafo.agregarRuta("Arequipa", "Lima", true);//precargamos el grafo con ciudades y conexiones de rutas
+            procesador.elGrafo.agregarRuta("Arequipa", "Cuzco", false);
+            procesador.elGrafo.agregarRuta("Cuzco", "Puno", true);
+            procesador.elGrafo.agregarRuta("Lima", "Puno", false);
+            procesador.elGrafo.agregarRuta("Lima", "Ica", true);
+            procesador.elGrafo.agregarRuta("Cajamarca", "Lima", true);
+            procesador.elGrafo.agregarRuta("Cajamarca", "Piura", false);
+            procesador.elGrafo.agregarRuta("Arequipa", "Cuzco", false);
+            procesador.elGrafo.agregarRuta("Cuzco", "Puno", true);
         }
-        private Transaccion CrearTransaccionDesdeFormulario()
+        private Transaccion crearTransaccion()
         {
             if (string.IsNullOrWhiteSpace(txtCodigo.Text.Trim()))
             {
@@ -79,35 +79,32 @@ namespace EP_CDB
                 MessageBox.Show("Ingrese la agencia de destino.");
                 return null;
             }
+            /*if (txtOrigen.Text.Trim() == txtDestino.Text.Trim())
+            {
+                MessageBox.Show("No puede haber igual destino y origen");
+                return null;
+            }*/
             TipoTransaccion tipo;
-            if (cmbTipo.SelectedIndex == 0) tipo = TipoTransaccion.Abono;
-            else if (cmbTipo.SelectedIndex == 1) tipo = TipoTransaccion.Retiro;
+            if (cbTipo.SelectedIndex == 0) tipo = TipoTransaccion.Abono;
+            else if (cbTipo.SelectedIndex == 1) tipo = TipoTransaccion.Retiro;
             else tipo = TipoTransaccion.Transferencia;
 
-            DateTime fecha;
-            if (checkBoxHoy.Checked)
-            {
-                fecha = DateTime.Now;
-            }
-            else
-            {
-                fecha = DTPFecha.Value;
-            }
-            procesador.elGrafo.AgregarRuta(txtOrigen.Text.Trim(), txtDestino.Text.Trim(), false);
+            DateTime fecha = fecha = DTPFecha.Value;
+            procesador.elGrafo.agregarRuta(txtOrigen.Text.Trim(), txtDestino.Text.Trim(), false);
             return new Transaccion(txtCodigo.Text.Trim(),txtOrigen.Text.Trim(),txtDestino.Text.Trim(),monto,tipo,
                 EstadoTransaccion.Pendiente,fecha);
         }
 
         private void btnEncolar_Click(object sender, EventArgs e)
         {
-            Transaccion nuevatransaccion = CrearTransaccionDesdeFormulario();
+            Transaccion nuevatransaccion = crearTransaccion();
             if (nuevatransaccion == null) return;
             procesador.recibirTransaccion(nuevatransaccion);
             txtCodigo.Clear();
             txtMonto.Clear();
             txtOrigen.Clear();
             txtDestino.Clear();
-            cmbTipo.SelectedIndex = 0;
+            cbTipo.SelectedIndex = 0;
             txtCodigo.Focus();
             ActualizarInterfaz();
             MessageBox.Show($"Operación {nuevatransaccion.Codigo} " + $"agregada a la cola.");
@@ -176,22 +173,20 @@ namespace EP_CDB
                 return;
             }
             ActualizarInterfaz();
-            MessageBox.Show($"Operación revertida.\n\n" + $"Código: {t.Codigo}\n" +
-                $"Monto: S/ {t.Monto:N2}\n" + $"Estado: {t.Estado}");
+            MessageBox.Show($"Operación revertida.\n\n" + $"Código: {t.Codigo}\n" + $"Monto: S/ {t.Monto:N2}\n" + $"Estado: {t.Estado}");
         }
         private void btnSimularPico_Click(object sender, EventArgs e)
         {
             DialogResult r = MessageBox.Show("Está a punto de simular 10 000 operaciones en unos milisegundos." +
-                " ¿Deseas continuar?","Simulación de pico",
-                MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                " ¿Deseas continuar?","Simulación de pico",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
             if (r == DialogResult.Yes)
             {
                 Stopwatch reloj = new Stopwatch();
                 Random random = new Random();
                 DateTime ahora = DateTime.Now;
-                List<string> agencias = procesador.elGrafo.obtenerCiudades();
+                List<string> agencias = procesador.elGrafo.ObtenerCiudades();
                 reloj.Start();
-                for (int i = 1; i <= 10000; i++) //aqui empezamos la simulacion
+                for (int i = 1; i <= 1000; i++) //aqui empezamos la simulacion
                 {
                     string codigo = generarCodigoUnico(random);
                     string origen = null;
@@ -225,12 +220,8 @@ namespace EP_CDB
         }
         private void buscarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormBuscar fb = new FormBuscar(procesador);
+            FormBusqueda fb = new FormBusqueda(procesador);
             fb.ShowDialog();
-        }
-        private void DTPFecha_ValueChanged(object sender, EventArgs e)
-        {
-            checkBoxHoy.Checked = false;
         }
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {

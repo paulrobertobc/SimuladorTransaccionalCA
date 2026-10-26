@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace EP_CDB.CajaArequipa.Servicios
 {
-    public class ProcesadorTransacciones
+    public class Procesador
     {
         public Cola laCola { get; private set; }
         public Pila laPila { get; private set; }
@@ -18,7 +18,7 @@ namespace EP_CDB.CajaArequipa.Servicios
         public int totalRecibidas { get; private set; }
         public int totalProcesadas { get; private set; }
         public int totalControlZ { get; private set; }
-        public ProcesadorTransacciones()
+        public Procesador()
         {
             laCola = new Cola();
             laPila = new Pila();
@@ -70,15 +70,14 @@ namespace EP_CDB.CajaArequipa.Servicios
 
                 if (transaccion == null) continue;
 
-                if (transaccion.Tipo == TipoTransaccion.Transferencia || transaccion.Tipo == TipoTransaccion.Abono ||
-                    transaccion.Tipo == TipoTransaccion.Retiro) // las transferencias requieren conectividad
+                if (transaccion.Tipo == TipoTransaccion.Transferencia || transaccion.Tipo == TipoTransaccion.Abono 
+                    || transaccion.Tipo == TipoTransaccion.Retiro) // las transferencias requieren conectividad
                 {
                     bool puedeSincronizar = elGrafo.ExisteCaminoConectado(transaccion.Origen,transaccion.Destino);
 
                     if (!puedeSincronizar)
                     {
                         laCola.Encolar(transaccion); // sigue pendiente y vuelve al final de la cola
-                        //MessageBox.Show($"No existe ruta entre {transaccion.Origen} y {transaccion.Destino}");
                         continue;
                     }
                 }

@@ -14,8 +14,8 @@ namespace EP_CDB
 {
     public partial class FormCrearConexion : Form
     {
-        private ProcesadorTransacciones procesador;
-        public FormCrearConexion(ProcesadorTransacciones procesador)
+        private Procesador procesador;
+        public FormCrearConexion(Procesador procesador)
         {
             InitializeComponent();
             this.procesador = procesador;
@@ -42,12 +42,12 @@ namespace EP_CDB
             }
             if (rbSI.Checked == true)
             {
-                procesador.elGrafo.AgregarRuta(origen, destino, true);
+                procesador.elGrafo.agregarRuta(origen, destino, true);
                 MessageBox.Show($"Ruta creada de {origen} a {destino} con conexion activa.");
             }
             else if (rbNO.Checked == true)
             {
-                procesador.elGrafo.AgregarRuta(origen, destino, false);
+                procesador.elGrafo.agregarRuta(origen, destino, false);
                 MessageBox.Show($"Ruta creada de {origen} a {destino} con conexion inactiva.");
             }
             else

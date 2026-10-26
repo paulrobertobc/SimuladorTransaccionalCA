@@ -38,7 +38,7 @@
             this.lblDestino = new System.Windows.Forms.Label();
             this.txtDestino = new System.Windows.Forms.TextBox();
             this.lblTipo = new System.Windows.Forms.Label();
-            this.cmbTipo = new System.Windows.Forms.ComboBox();
+            this.cbTipo = new System.Windows.Forms.ComboBox();
             this.btnEncolar = new System.Windows.Forms.Button();
             this.btnProcesar = new System.Windows.Forms.Button();
             this.btnProcesarTodo = new System.Windows.Forms.Button();
@@ -56,7 +56,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.gpRegistro = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.checkBoxHoy = new System.Windows.Forms.CheckBox();
             this.DTPFecha = new System.Windows.Forms.DateTimePicker();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -144,13 +143,13 @@
             this.lblTipo.TabIndex = 8;
             this.lblTipo.Text = "Tipo";
             // 
-            // cmbTipo
+            // cbTipo
             // 
-            this.cmbTipo.FormattingEnabled = true;
-            this.cmbTipo.Location = new System.Drawing.Point(63, 129);
-            this.cmbTipo.Name = "cmbTipo";
-            this.cmbTipo.Size = new System.Drawing.Size(100, 21);
-            this.cmbTipo.TabIndex = 9;
+            this.cbTipo.FormattingEnabled = true;
+            this.cbTipo.Location = new System.Drawing.Point(63, 129);
+            this.cbTipo.Name = "cbTipo";
+            this.cbTipo.Size = new System.Drawing.Size(100, 21);
+            this.cbTipo.TabIndex = 9;
             // 
             // btnEncolar
             // 
@@ -164,7 +163,7 @@
             // 
             // btnProcesar
             // 
-            this.btnProcesar.Location = new System.Drawing.Point(16, 220);
+            this.btnProcesar.Location = new System.Drawing.Point(12, 207);
             this.btnProcesar.Name = "btnProcesar";
             this.btnProcesar.Size = new System.Drawing.Size(120, 23);
             this.btnProcesar.TabIndex = 11;
@@ -174,7 +173,7 @@
             // 
             // btnProcesarTodo
             // 
-            this.btnProcesarTodo.Location = new System.Drawing.Point(142, 221);
+            this.btnProcesarTodo.Location = new System.Drawing.Point(138, 208);
             this.btnProcesarTodo.Name = "btnProcesarTodo";
             this.btnProcesarTodo.Size = new System.Drawing.Size(112, 23);
             this.btnProcesarTodo.TabIndex = 12;
@@ -184,7 +183,7 @@
             // 
             // btnRevertir
             // 
-            this.btnRevertir.Location = new System.Drawing.Point(260, 220);
+            this.btnRevertir.Location = new System.Drawing.Point(256, 207);
             this.btnRevertir.Name = "btnRevertir";
             this.btnRevertir.Size = new System.Drawing.Size(154, 23);
             this.btnRevertir.TabIndex = 13;
@@ -194,7 +193,7 @@
             // 
             // btnSimularPico
             // 
-            this.btnSimularPico.Location = new System.Drawing.Point(1110, 85);
+            this.btnSimularPico.Location = new System.Drawing.Point(1106, 72);
             this.btnSimularPico.Name = "btnSimularPico";
             this.btnSimularPico.Size = new System.Drawing.Size(90, 87);
             this.btnSimularPico.TabIndex = 15;
@@ -206,7 +205,7 @@
             // 
             this.lstCola.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lstCola.FormattingEnabled = true;
-            this.lstCola.Location = new System.Drawing.Point(16, 270);
+            this.lstCola.Location = new System.Drawing.Point(12, 257);
             this.lstCola.Name = "lstCola";
             this.lstCola.Size = new System.Drawing.Size(398, 121);
             this.lstCola.TabIndex = 16;
@@ -215,7 +214,7 @@
             // 
             this.lstPila.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lstPila.FormattingEnabled = true;
-            this.lstPila.Location = new System.Drawing.Point(16, 428);
+            this.lstPila.Location = new System.Drawing.Point(12, 415);
             this.lstPila.Name = "lstPila";
             this.lstPila.Size = new System.Drawing.Size(398, 121);
             this.lstPila.TabIndex = 17;
@@ -224,7 +223,7 @@
             // 
             this.dgvOperaciones.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvOperaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOperaciones.Location = new System.Drawing.Point(435, 237);
+            this.dgvOperaciones.Location = new System.Drawing.Point(431, 224);
             this.dgvOperaciones.Name = "dgvOperaciones";
             this.dgvOperaciones.Size = new System.Drawing.Size(765, 369);
             this.dgvOperaciones.TabIndex = 18;
@@ -268,7 +267,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 254);
+            this.label1.Location = new System.Drawing.Point(9, 241);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 25;
@@ -277,7 +276,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 404);
+            this.label2.Location = new System.Drawing.Point(9, 391);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 13);
             this.label2.TabIndex = 26;
@@ -286,7 +285,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(432, 221);
+            this.label3.Location = new System.Drawing.Point(428, 208);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 13);
             this.label3.TabIndex = 27;
@@ -295,7 +294,6 @@
             // gpRegistro
             // 
             this.gpRegistro.Controls.Add(this.label4);
-            this.gpRegistro.Controls.Add(this.checkBoxHoy);
             this.gpRegistro.Controls.Add(this.DTPFecha);
             this.gpRegistro.Controls.Add(this.lblCodigo);
             this.gpRegistro.Controls.Add(this.txtCodigo);
@@ -305,10 +303,10 @@
             this.gpRegistro.Controls.Add(this.txtMonto);
             this.gpRegistro.Controls.Add(this.txtDestino);
             this.gpRegistro.Controls.Add(this.lblDestino);
-            this.gpRegistro.Controls.Add(this.cmbTipo);
+            this.gpRegistro.Controls.Add(this.cbTipo);
             this.gpRegistro.Controls.Add(this.lblTipo);
             this.gpRegistro.Controls.Add(this.btnEncolar);
-            this.gpRegistro.Location = new System.Drawing.Point(16, 49);
+            this.gpRegistro.Location = new System.Drawing.Point(12, 36);
             this.gpRegistro.Name = "gpRegistro";
             this.gpRegistro.Size = new System.Drawing.Size(398, 161);
             this.gpRegistro.TabIndex = 28;
@@ -318,34 +316,23 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(179, 33);
+            this.label4.Location = new System.Drawing.Point(179, 52);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 13);
             this.label4.TabIndex = 13;
             this.label4.Text = "Fecha";
             // 
-            // checkBoxHoy
-            // 
-            this.checkBoxHoy.AutoSize = true;
-            this.checkBoxHoy.Location = new System.Drawing.Point(244, 80);
-            this.checkBoxHoy.Name = "checkBoxHoy";
-            this.checkBoxHoy.Size = new System.Drawing.Size(45, 17);
-            this.checkBoxHoy.TabIndex = 12;
-            this.checkBoxHoy.Text = "Hoy";
-            this.checkBoxHoy.UseVisualStyleBackColor = true;
-            // 
             // DTPFecha
             // 
-            this.DTPFecha.Location = new System.Drawing.Point(182, 48);
+            this.DTPFecha.Location = new System.Drawing.Point(182, 67);
             this.DTPFecha.Name = "DTPFecha";
             this.DTPFecha.Size = new System.Drawing.Size(200, 20);
             this.DTPFecha.TabIndex = 11;
-            this.DTPFecha.ValueChanged += new System.EventHandler(this.DTPFecha_ValueChanged);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(435, 49);
+            this.pictureBox1.Location = new System.Drawing.Point(431, 36);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(669, 161);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -392,7 +379,7 @@
             this.gpNoti.Controls.Add(this.lblRecibidas);
             this.gpNoti.Controls.Add(this.lblPendientes);
             this.gpNoti.Controls.Add(this.lblProcesadas);
-            this.gpNoti.Location = new System.Drawing.Point(16, 555);
+            this.gpNoti.Location = new System.Drawing.Point(12, 542);
             this.gpNoti.Name = "gpNoti";
             this.gpNoti.Size = new System.Drawing.Size(398, 51);
             this.gpNoti.TabIndex = 31;
@@ -404,7 +391,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(1210, 618);
+            this.ClientSize = new System.Drawing.Size(1210, 608);
             this.Controls.Add(this.gpNoti);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.gpRegistro);
@@ -446,7 +433,7 @@
         private System.Windows.Forms.Label lblDestino;
         private System.Windows.Forms.TextBox txtDestino;
         private System.Windows.Forms.Label lblTipo;
-        private System.Windows.Forms.ComboBox cmbTipo;
+        private System.Windows.Forms.ComboBox cbTipo;
         private System.Windows.Forms.Button btnEncolar;
         private System.Windows.Forms.Button btnProcesar;
         private System.Windows.Forms.Button btnProcesarTodo;
@@ -470,7 +457,6 @@
         private System.Windows.Forms.GroupBox gpNoti;
         private System.Windows.Forms.ToolStripMenuItem buscarToolStripMenuItem;
         private System.Windows.Forms.DateTimePicker DTPFecha;
-        private System.Windows.Forms.CheckBox checkBoxHoy;
         private System.Windows.Forms.Label label4;
     }
 }

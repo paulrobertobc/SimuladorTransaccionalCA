@@ -14,22 +14,35 @@ namespace EP_CDB
 {
     public partial class FormGrafo : Form
     {
-        private ProcesadorTransacciones procesador;
-        public FormGrafo(ProcesadorTransacciones procesador, Form1 formularioPrincipal)
+        private Procesador procesador;
+        public FormGrafo(Procesador procesador, Form1 formularioPrincipal)
         {
             InitializeComponent();
-            this.procesador = procesador;    
-            ConfigurarInterfazGrafo();
+            this.procesador = procesador;
+            ActualizarListaRutasGrafo();
         }
-
+        private void ActualizarListaRutasGrafo()
+        {
+            cbAgenciaGrafo.Items.Clear();
+            foreach (string agencia in procesador.elGrafo.ObtenerAgencias())
+            {
+                cbAgenciaGrafo.Items.Add(agencia);
+            }
+            lstRutasGrafo.Items.Clear();
+            foreach (Ruta ruta in procesador.elGrafo.ObtenerTodasLasRutas())
+            {
+                lstRutasGrafo.Items.Add(ruta.ToString());
+            }
+            if (cbAgenciaGrafo.Items.Count > 0) cbAgenciaGrafo.SelectedIndex = 0;
+        }
         private void btnConsultaRutas_Click(object sender, EventArgs e)
         {
-            if (cmbAgenciaGrafo.SelectedItem == null)
+            if (cbAgenciaGrafo.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione una agencia.");
                 return;
             }
-            string agencia = cmbAgenciaGrafo.SelectedItem.ToString();
+            string agencia = cbAgenciaGrafo.SelectedItem.ToString();
             List<Ruta> rutas = procesador.elGrafo.ObtenerTodasLasRutas();
             lstRutasGrafo.Items.Clear();
             foreach (Ruta ruta in rutas)
@@ -42,26 +55,6 @@ namespace EP_CDB
             }
             if (lstRutasGrafo.Items.Count == 0) lstRutasGrafo.Items.Add("Esta agencia no tiene rutas registradas.");
         }
-        private void ConfigurarInterfazGrafo()
-        {
-            cmbAgenciaGrafo.Items.Clear();
-            foreach (string agencia in procesador.elGrafo.ObtenerAgencias())
-            {
-                cmbAgenciaGrafo.Items.Add(agencia);
-            }
-            if (cmbAgenciaGrafo.Items.Count > 0) cmbAgenciaGrafo.SelectedIndex = 0;
-            ActualizarListaRutasGrafo();
-        }
-
-        private void ActualizarListaRutasGrafo()
-        {
-            lstRutasGrafo.Items.Clear();
-            foreach (Ruta ruta in procesador.elGrafo.ObtenerTodasLasRutas())
-            {
-                lstRutasGrafo.Items.Add(ruta.ToString());
-            }
-        }
-
         private void btnAlternarConexion_Click(object sender, EventArgs e)
         {
             if (lstRutasGrafo.SelectedItem == null)
@@ -83,10 +76,9 @@ namespace EP_CDB
             }
 
             bool nuevoEstado = !rutaSeleccionada.EstaConectada;
+            procesador.elGrafo.cambiarEstadoRuta(rutaSeleccionada.Origen,rutaSeleccionada.Destino,nuevoEstado);
 
-            procesador.elGrafo.CambiarEstadoRuta(rutaSeleccionada.Origen,rutaSeleccionada.Destino,nuevoEstado);
-
-            string agenciaSeleccionada = cmbAgenciaGrafo.SelectedItem?.ToString();
+            string agenciaSeleccionada = cbAgenciaGrafo.SelectedItem?.ToString();
 
             if (!string.IsNullOrWhiteSpace(agenciaSeleccionada)) btnConsultaRutas_Click(sender, e);
             else ActualizarListaRutasGrafo();
@@ -101,7 +93,6 @@ namespace EP_CDB
             }
             ActualizarListaRutasGrafo();
         }
-
         private void btnVerTodasRutas_Click(object sender, EventArgs e)
         {
             ActualizarListaRutasGrafo();
@@ -110,7 +101,7 @@ namespace EP_CDB
         {
             FormCrearConexion fcc = new FormCrearConexion(procesador);
             fcc.ShowDialog();
-            ConfigurarInterfazGrafo();
+            ActualizarListaRutasGrafo();
         }
     }
 }
