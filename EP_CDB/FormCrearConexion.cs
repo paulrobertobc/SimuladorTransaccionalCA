@@ -37,7 +37,7 @@ namespace EP_CDB
             bool puedeSincronizar = procesador.elGrafo.ExisteCaminoConectado(origen, destino);
             if (puedeSincronizar)
             {
-                MessageBox.Show("Ya existe camino");
+                MessageBox.Show($"Ya existe camino entre {tbOrigen.Text} y {tbDestino.Text}");
                 return;
             }
             if (rbSI.Checked == true)
@@ -48,7 +48,7 @@ namespace EP_CDB
             else if (rbNO.Checked == true)
             {
                 procesador.elGrafo.agregarRuta(origen, destino, false);
-                MessageBox.Show($"Ruta creada de {origen} a {destino} con conexion inactiva.");
+                MessageBox.Show($"Ruta creada de {origen} a {destino} con conexion desactivada.");
             }
             else
             {

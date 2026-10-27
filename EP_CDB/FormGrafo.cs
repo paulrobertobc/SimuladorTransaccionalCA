@@ -21,20 +21,6 @@ namespace EP_CDB
             this.procesador = procesador;
             ActualizarListaRutasGrafo();
         }
-        private void ActualizarListaRutasGrafo()
-        {
-            cbAgenciaGrafo.Items.Clear();
-            foreach (string agencia in procesador.elGrafo.ObtenerAgencias())
-            {
-                cbAgenciaGrafo.Items.Add(agencia);
-            }
-            lstRutasGrafo.Items.Clear();
-            foreach (Ruta ruta in procesador.elGrafo.ObtenerTodasLasRutas())
-            {
-                lstRutasGrafo.Items.Add(ruta.ToString());
-            }
-            if (cbAgenciaGrafo.Items.Count > 0) cbAgenciaGrafo.SelectedIndex = 0;
-        }
         private void btnConsultaRutas_Click(object sender, EventArgs e)
         {
             if (cbAgenciaGrafo.SelectedItem == null)
@@ -64,9 +50,7 @@ namespace EP_CDB
             }
 
             string textoSeleccionado = lstRutasGrafo.SelectedItem.ToString();
-
             List<Ruta> rutas = procesador.elGrafo.ObtenerTodasLasRutas();
-
             Ruta rutaSeleccionada = rutas.Find(p => p.ToString() == textoSeleccionado);
 
             if (rutaSeleccionada == null)
@@ -78,19 +62,6 @@ namespace EP_CDB
             bool nuevoEstado = !rutaSeleccionada.EstaConectada;
             procesador.elGrafo.cambiarEstadoRuta(rutaSeleccionada.Origen,rutaSeleccionada.Destino,nuevoEstado);
 
-            string agenciaSeleccionada = cbAgenciaGrafo.SelectedItem?.ToString();
-
-            if (!string.IsNullOrWhiteSpace(agenciaSeleccionada)) btnConsultaRutas_Click(sender, e);
-            else ActualizarListaRutasGrafo();
-
-            if (nuevoEstado)
-            {
-                int procesadas = procesador.hacerTodo();
-            }
-            else
-            {
-                MessageBox.Show($"La ruta entre {rutaSeleccionada.Origen} y " + $"{rutaSeleccionada.Destino} ahora está intermitente.");
-            }
             ActualizarListaRutasGrafo();
         }
         private void btnVerTodasRutas_Click(object sender, EventArgs e)
@@ -102,6 +73,20 @@ namespace EP_CDB
             FormCrearConexion fcc = new FormCrearConexion(procesador);
             fcc.ShowDialog();
             ActualizarListaRutasGrafo();
+        }
+        private void ActualizarListaRutasGrafo()
+        {
+            cbAgenciaGrafo.Items.Clear();
+            foreach (string agencia in procesador.elGrafo.ObtenerAgencias())
+            {
+                cbAgenciaGrafo.Items.Add(agencia);
+            }
+            lstRutasGrafo.Items.Clear();
+            foreach (Ruta ruta in procesador.elGrafo.ObtenerTodasLasRutas())
+            {
+                lstRutasGrafo.Items.Add(ruta.ToString());
+            }
+            if (cbAgenciaGrafo.Items.Count > 0) cbAgenciaGrafo.SelectedIndex = 0;
         }
     }
 }

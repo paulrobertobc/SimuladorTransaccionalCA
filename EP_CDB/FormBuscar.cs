@@ -16,11 +16,13 @@ namespace EP_CDB
     {
         private Procesador procesador;
         private DateTime fechaElegida;
-        private IEnumerable<Transaccion> resultadosGlobales;
+        //private IEnumerable<Transaccion> resultadosGlobales;
         private IEnumerable<Transaccion> resultadosActuales;
+        private string columnaActiva = ""; //con esto podremos pintar luego algunas columnas del dgv
         public FormBusqueda(Procesador procesador)
         {
             InitializeComponent();
+            dgvOperaciones.CellFormatting += dgvOperaciones_CellFormatting;
             this.procesador = procesador;
             resultadosActuales = EstructurasUnidas();
 
@@ -40,52 +42,49 @@ namespace EP_CDB
             cbMMI.Items.Add("Igual");
             cbMMI.Items.Add("Mayor a");
             cbMMI.Items.Add("Menor a");
-            cbMMI.SelectedIndex = 0;
+            cbMMI.SelectedIndex = -1;
 
             cbTipo.Items.Clear();
             cbTipo.Items.Add("Abono");
             cbTipo.Items.Add("Retiro");
             cbTipo.Items.Add("Transferencia");
-            cbTipo.SelectedIndex = 0;
+            cbTipo.SelectedIndex = -1;
 
             cbEstados.Items.Clear();
             cbEstados.Items.Add("Pendiente");
             cbEstados.Items.Add("Procesada");
             cbEstados.Items.Add("Revertida");
-            cbEstados.SelectedIndex = 0;
+            cbEstados.SelectedIndex = -1;
 
             LlenadoDTG(resultadosActuales);
         }
-        private IEnumerable<Transaccion> EstructurasUnidas()//con esto unificamos la busqueda con el arbol, la pila y cola
+        private IEnumerable<Transaccion> EstructurasUnidas()//con esto unificamos la busqueda con el arbol y la cola
         {
             return procesador.elArbol.Concat(procesador.laCola);
         }
         private void btnBuscarCiudad_Click(object sender, EventArgs e)
         {
-            string c = tbDatos.Text.Trim();
+            string c = tbCiudad.Text.Trim();
             if (string.IsNullOrWhiteSpace(c))
             {
-                MessageBox.Show("Ingrese una ciudad para buscar.");
+                MessageBox.Show("Resultados de la búsqueda: Ingrese una ciudad para buscar");
                 return;
             }
-
             var resultados = resultadosActuales.Where(t =>
             {
-                if (rbOrigen.Checked)
-                    return t.Origen.Trim().Equals(c, StringComparison.OrdinalIgnoreCase);
-                else if (rbDestino.Checked)
-                    return t.Destino.Trim().Equals(c, StringComparison.OrdinalIgnoreCase);
+                if (rbOrigen.Checked) return t.Origen.Trim().Equals(c, StringComparison.OrdinalIgnoreCase);
+                else if (rbDestino.Checked) return t.Destino.Trim().Equals(c, StringComparison.OrdinalIgnoreCase);
+
                 return false;
             });
-
             if (!resultados.Any())
             {
                 dgvOperaciones.Rows.Clear();
-                lbResultados.Text = "Resultados de la búsqueda (No se encontraron transacciones para esa ciudad.)";
+                lbResultados.Text = "Resultados de la búsqueda: No se encontraron transacciones para esa ciudad";
                 return;
             }
-
             resultadosActuales = resultados;
+            columnaActiva = rbOrigen.Checked ? "Origen" : "Destino";
             LlenadoDTG(resultadosActuales);
         }
         private void btnBuscarCod_Click(object sender, EventArgs e)
@@ -93,18 +92,14 @@ namespace EP_CDB
             string codigo = txtBusqueda.Text.Trim();
             if (string.IsNullOrWhiteSpace(codigo))
             {
-                MessageBox.Show("Ingrese el código de la operación.");
+                MessageBox.Show("Resultados de la búsqueda: Ingrese el código de la operación.");
                 return;
             }
+
             Transaccion buscado;
-            if (checkBoxIgnorar.Checked)
-            {
-                buscado = procesador.buscar(codigo);
-            }
-            else
-            {
-                buscado = resultadosActuales.FirstOrDefault(t => t.Codigo.Equals(codigo, StringComparison.OrdinalIgnoreCase));
-            }
+            if (checkBoxIgnorar.Checked) buscado = procesador.buscar(codigo);
+            else buscado = resultadosActuales.FirstOrDefault(t => t.Codigo.Equals(codigo, StringComparison.OrdinalIgnoreCase));
+
             if (buscado != null)
             {
                 var result = new List<Transaccion> { buscado };
@@ -112,14 +107,14 @@ namespace EP_CDB
                 return;
             }
             dgvOperaciones.Rows.Clear();
-            lbResultados.Text = "Resultados de la búsqueda (No se encontró la operación.)";
+            lbResultados.Text = "Resultados de la búsqueda: No se encontró la operación";
         }
         private void btnBuscarMonto_Click(object sender, EventArgs e)
         {
             if (!double.TryParse(tbMonto.Text.Trim(), out double m))
             {
                 dgvOperaciones.Rows.Clear();
-                lbResultados.Text = "Resultados de la búsqueda (Ingrese un monto válido.)";
+                lbResultados.Text = "Resultados de la búsqueda: Ingrese un monto válido";
                 return;
             }
 
@@ -137,37 +132,27 @@ namespace EP_CDB
             if (!resultados.Any())
             {
                 dgvOperaciones.Rows.Clear();
-                lbResultados.Text = "Resultados de la búsqueda (No se encontraron transacciones con el monto especificado.)";
+                lbResultados.Text = "Resultados de la búsqueda: No se encontraron transacciones con el monto especificado.";
                 return;
             }
-
+            columnaActiva = "Monto";
             resultadosActuales = resultados;
             LlenadoDTG(resultadosActuales);
         }
         private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var resultados = resultadosActuales.Where(t =>
-            {
-                switch (cbTipo.SelectedIndex)
-                {
-                    case 0: return t.Tipo == TipoTransaccion.Abono;
-                    case 1: return t.Tipo == TipoTransaccion.Retiro;
-                    case 2: return t.Tipo == TipoTransaccion.Transferencia;
-                    default: return false;
-                }
-            });
-
-            if (!resultados.Any())
+            dgvOperaciones.Rows.Clear();
+            resultadosActuales = TiposSeleccionados(resultadosActuales);
+            if (!resultadosActuales.Any())
             {
                 dgvOperaciones.Rows.Clear();
-                lbResultados.Text = $"Resultados de la búsqueda (No se encontraron transacciones de tipo {cbTipo.SelectedItem})";
+                lbResultados.Text = $"Resultados de la búsqueda: No se encontraron transacciones de tipo {cbTipo.SelectedItem}";
                 return;
             }
-
-            resultadosActuales = resultados;
+            columnaActiva = "Tipo";
             LlenadoDTG(resultadosActuales);
         }
-        public IEnumerable<Transaccion> ObtenerTipoSeleccionado(IEnumerable<Transaccion> r)
+        public IEnumerable<Transaccion> TiposSeleccionados(IEnumerable<Transaccion> r)
         {
             return r.Where(t =>
             {
@@ -187,9 +172,10 @@ namespace EP_CDB
 
             if (!resultadosActuales.Any())
             {
-                lbResultados.Text = $"Resultados de la búsqueda (No se encontraron transacciones {cbEstados.SelectedItem})";
+                lbResultados.Text = $"Resultados de la búsqueda: No se encontraron transacciones {cbEstados.SelectedItem}";
                 return;
             }
+            columnaActiva = "Estado";
             LlenadoDTG(resultadosActuales);
         }
         public IEnumerable<Transaccion> EstadosSeleccionados(IEnumerable<Transaccion> r)
@@ -208,26 +194,40 @@ namespace EP_CDB
         private void DTPFecha_ValueChanged(object sender, EventArgs e)
         { 
             fechaElegida = DTPFecha.Value.Date;
-            resultadosGlobales = resultadosActuales.Where(p => p.Fecha.Date == fechaElegida);
-            resultadosActuales = EstadosSeleccionados(resultadosGlobales).Concat(ObtenerTipoSeleccionado(resultadosGlobales));
+            resultadosActuales = resultadosActuales.Where(p => p.Fecha.Date.Equals(fechaElegida));
             LlenadoDTG(resultadosActuales);
         }
-        public void LlenadoDTG(IEnumerable<Transaccion> resultados)
+        public void LlenadoDTG(IEnumerable<Transaccion> r)
         {
-            int total = resultados.Count();
-            lbResultados.Text = $"Resultados de la búsqueda ({total} resultados.)";
+            int t = r.Count();
+            lbResultados.Text = $"Resultados de la búsqueda: {t} resultados.";
             dgvOperaciones.Rows.Clear();
-            foreach (Transaccion t in resultados)
+            foreach (Transaccion d in r)
             {
-                dgvOperaciones.Rows.Add(t.Codigo,t.Origen,t.Destino,
-                    $"S/ {t.Monto:N2}",t.Tipo,t.Estado,t.Fecha.Date.ToShortDateString()
+                dgvOperaciones.Rows.Add(d.Codigo,d.Origen,d.Destino,
+                    $"S/ {d.Monto:N2}",d.Tipo,d.Estado,d.Fecha.Date.ToShortDateString()
                 );
+            }
+        }
+        private void dgvOperaciones_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvOperaciones.Columns[e.ColumnIndex].Name == columnaActiva)
+            {
+                e.CellStyle.BackColor = Color.LightBlue;
+                e.CellStyle.ForeColor = Color.Black;
+                e.CellStyle.Font = new Font(dgvOperaciones.Font, FontStyle.Bold);
             }
         }
         private void reiniciarFiltrosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             resultadosActuales = EstructurasUnidas();
-            resultadosGlobales = null;
+            DTPFecha.Value = DateTime.Today;
+            tbCiudad.Clear();
+            rbDestino.Checked = rbOrigen.Checked = checkBoxIgnorar.Checked = false;
+            tbMonto.Clear();
+            txtBusqueda.Text = "(415)";
+            cbTipo.SelectedIndex = cbEstados.SelectedIndex = cbMMI.SelectedIndex = - 1;
+            columnaActiva = "";
             LlenadoDTG(resultadosActuales);
         }
     }

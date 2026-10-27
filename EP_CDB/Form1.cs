@@ -25,7 +25,7 @@ namespace EP_CDB
             cbTipo.Items.Add("Abono");
             cbTipo.Items.Add("Retiro");
             cbTipo.Items.Add("Transferencia");
-            cbTipo.SelectedIndex = 0;
+            cbTipo.SelectedIndex = -1;
             dgvOperaciones.AutoGenerateColumns = false;
             dgvOperaciones.ReadOnly = true;
             dgvOperaciones.Columns.Clear();
@@ -79,27 +79,23 @@ namespace EP_CDB
                 MessageBox.Show("Ingrese la agencia de destino.");
                 return null;
             }
-            /*if (txtOrigen.Text.Trim() == txtDestino.Text.Trim())
-            {
-                MessageBox.Show("No puede haber igual destino y origen");
-                return null;
-            }*/
+            bool conexion = txtOrigen.Text.Trim() == txtDestino.Text.Trim();
             TipoTransaccion tipo;
             if (cbTipo.SelectedIndex == 0) tipo = TipoTransaccion.Abono;
             else if (cbTipo.SelectedIndex == 1) tipo = TipoTransaccion.Retiro;
             else tipo = TipoTransaccion.Transferencia;
 
             DateTime fecha = fecha = DTPFecha.Value;
-            procesador.elGrafo.agregarRuta(txtOrigen.Text.Trim(), txtDestino.Text.Trim(), false);
+            procesador.elGrafo.agregarRuta(txtOrigen.Text.Trim(), txtDestino.Text.Trim(), conexion);
             return new Transaccion(txtCodigo.Text.Trim(),txtOrigen.Text.Trim(),txtDestino.Text.Trim(),monto,tipo,
                 EstadoTransaccion.Pendiente,fecha);
         }
 
         private void btnEncolar_Click(object sender, EventArgs e)
         {
-            Transaccion nuevatransaccion = crearTransaccion();
-            if (nuevatransaccion == null) return;
-            procesador.recibirTransaccion(nuevatransaccion);
+            Transaccion nuevo = crearTransaccion();
+            if (nuevo == null) return;
+            procesador.recibirTransaccion(nuevo);
             txtCodigo.Clear();
             txtMonto.Clear();
             txtOrigen.Clear();
@@ -107,25 +103,24 @@ namespace EP_CDB
             cbTipo.SelectedIndex = 0;
             txtCodigo.Focus();
             ActualizarInterfaz();
-            MessageBox.Show($"Operación {nuevatransaccion.Codigo} " + $"agregada a la cola.");
+            MessageBox.Show($"Operación {nuevo.Codigo} " + $"agregada a la cola.");
         }
         public void ActualizarInterfaz()
         {
-            //actualizamos la listbox de la cola
             lstCola.Items.Clear();
-            foreach (Transaccion t in procesador.laCola)
+            foreach (Transaccion t in procesador.laCola) //actualizamos la listbox de la cola
             {
                 lstCola.Items.Add(t.ToString());
             }
-            //actualizamos la listbox de la pila
+            
             lstPila.Items.Clear();
-            foreach (Transaccion t in procesador.laPila)
+            foreach (Transaccion t in procesador.laPila) //actualizamos la listbox de la pila
             {
                 lstPila.Items.Add(t.ToString());
             }
-            //actualizamos el dtg de las estadisticas
+            
             dgvOperaciones.Rows.Clear();
-            foreach (Transaccion t in procesador.elArbol)
+            foreach (Transaccion t in procesador.elArbol)//actualizamos el dtg de las estadisticas
             {
                 dgvOperaciones.Rows.Add(t.Codigo, t.Origen, t.Destino,
                     $"S/ {t.Monto:N2}", t.Tipo, t.Estado, t.Fecha);
@@ -177,8 +172,8 @@ namespace EP_CDB
         }
         private void btnSimularPico_Click(object sender, EventArgs e)
         {
-            DialogResult r = MessageBox.Show("Está a punto de simular 10 000 operaciones en unos milisegundos." +
-                " ¿Deseas continuar?","Simulación de pico",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            DialogResult r = MessageBox.Show("Esta a punto de simular 10 000 operaciones en unos milisegundos." +
+                " ¿Desea continuar?","Simulación de pico",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
             if (r == DialogResult.Yes)
             {
                 Stopwatch reloj = new Stopwatch();
@@ -186,7 +181,7 @@ namespace EP_CDB
                 DateTime ahora = DateTime.Now;
                 List<string> agencias = procesador.elGrafo.ObtenerCiudades();
                 reloj.Start();
-                for (int i = 1; i <= 1000; i++) //aqui empezamos la simulacion
+                for (int i = 1; i <= 10000; i++) //aqui empezamos la simulacion
                 {
                     string codigo = generarCodigoUnico(random);
                     string origen = null;

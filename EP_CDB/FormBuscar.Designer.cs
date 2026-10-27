@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbDatos = new System.Windows.Forms.TextBox();
+            this.tbCiudad = new System.Windows.Forms.TextBox();
             this.rbOrigen = new System.Windows.Forms.RadioButton();
             this.rbDestino = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnBuscarCiudad = new System.Windows.Forms.Button();
             this.gbBusqueda = new System.Windows.Forms.GroupBox();
+            this.checkBoxIgnorar = new System.Windows.Forms.CheckBox();
             this.lblResultadoBusqueda = new System.Windows.Forms.Label();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.btnBuscarCod = new System.Windows.Forms.Button();
-            this.checkBoxIgnorar = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnBuscarMonto = new System.Windows.Forms.Button();
             this.cbMMI = new System.Windows.Forms.ComboBox();
@@ -50,7 +51,6 @@
             this.lbResultados = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.reiniciarFiltrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnBuscarCiudad = new System.Windows.Forms.Button();
             this.dgvOperaciones = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.gbBusqueda.SuspendLayout();
@@ -62,12 +62,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvOperaciones)).BeginInit();
             this.SuspendLayout();
             // 
-            // tbDatos
+            // tbCiudad
             // 
-            this.tbDatos.Location = new System.Drawing.Point(18, 29);
-            this.tbDatos.Name = "tbDatos";
-            this.tbDatos.Size = new System.Drawing.Size(100, 20);
-            this.tbDatos.TabIndex = 2;
+            this.tbCiudad.Location = new System.Drawing.Point(18, 29);
+            this.tbCiudad.Name = "tbCiudad";
+            this.tbCiudad.Size = new System.Drawing.Size(100, 20);
+            this.tbCiudad.TabIndex = 2;
             // 
             // rbOrigen
             // 
@@ -94,7 +94,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnBuscarCiudad);
-            this.groupBox1.Controls.Add(this.tbDatos);
+            this.groupBox1.Controls.Add(this.tbCiudad);
             this.groupBox1.Controls.Add(this.rbDestino);
             this.groupBox1.Controls.Add(this.rbOrigen);
             this.groupBox1.Location = new System.Drawing.Point(14, 84);
@@ -103,6 +103,16 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingresar ciudad";
+            // 
+            // btnBuscarCiudad
+            // 
+            this.btnBuscarCiudad.Location = new System.Drawing.Point(18, 101);
+            this.btnBuscarCiudad.Name = "btnBuscarCiudad";
+            this.btnBuscarCiudad.Size = new System.Drawing.Size(100, 23);
+            this.btnBuscarCiudad.TabIndex = 37;
+            this.btnBuscarCiudad.Text = "Buscar";
+            this.btnBuscarCiudad.UseVisualStyleBackColor = true;
+            this.btnBuscarCiudad.Click += new System.EventHandler(this.btnBuscarCiudad_Click);
             // 
             // gbBusqueda
             // 
@@ -116,6 +126,16 @@
             this.gbBusqueda.TabIndex = 30;
             this.gbBusqueda.TabStop = false;
             this.gbBusqueda.Text = "Buscar operación";
+            // 
+            // checkBoxIgnorar
+            // 
+            this.checkBoxIgnorar.AutoSize = true;
+            this.checkBoxIgnorar.Location = new System.Drawing.Point(134, 44);
+            this.checkBoxIgnorar.Name = "checkBoxIgnorar";
+            this.checkBoxIgnorar.Size = new System.Drawing.Size(124, 17);
+            this.checkBoxIgnorar.TabIndex = 21;
+            this.checkBoxIgnorar.Text = "Buscar en todo lugar";
+            this.checkBoxIgnorar.UseVisualStyleBackColor = true;
             // 
             // lblResultadoBusqueda
             // 
@@ -143,16 +163,6 @@
             this.btnBuscarCod.Text = "Buscar";
             this.btnBuscarCod.UseVisualStyleBackColor = true;
             this.btnBuscarCod.Click += new System.EventHandler(this.btnBuscarCod_Click);
-            // 
-            // checkBoxIgnorar
-            // 
-            this.checkBoxIgnorar.AutoSize = true;
-            this.checkBoxIgnorar.Location = new System.Drawing.Point(134, 44);
-            this.checkBoxIgnorar.Name = "checkBoxIgnorar";
-            this.checkBoxIgnorar.Size = new System.Drawing.Size(124, 17);
-            this.checkBoxIgnorar.TabIndex = 21;
-            this.checkBoxIgnorar.Text = "Buscar en todo lugar";
-            this.checkBoxIgnorar.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -273,30 +283,20 @@
             this.reiniciarFiltrosToolStripMenuItem.Text = "Reiniciar filtros";
             this.reiniciarFiltrosToolStripMenuItem.Click += new System.EventHandler(this.reiniciarFiltrosToolStripMenuItem_Click);
             // 
-            // btnBuscarCiudad
-            // 
-            this.btnBuscarCiudad.Location = new System.Drawing.Point(18, 101);
-            this.btnBuscarCiudad.Name = "btnBuscarCiudad";
-            this.btnBuscarCiudad.Size = new System.Drawing.Size(100, 23);
-            this.btnBuscarCiudad.TabIndex = 37;
-            this.btnBuscarCiudad.Text = "Buscar";
-            this.btnBuscarCiudad.UseVisualStyleBackColor = true;
-            this.btnBuscarCiudad.Click += new System.EventHandler(this.btnBuscarCiudad_Click);
-            // 
             // dgvOperaciones
             // 
             this.dgvOperaciones.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvOperaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOperaciones.Location = new System.Drawing.Point(299, 37);
+            this.dgvOperaciones.Location = new System.Drawing.Point(299, 30);
             this.dgvOperaciones.Name = "dgvOperaciones";
-            this.dgvOperaciones.Size = new System.Drawing.Size(784, 369);
+            this.dgvOperaciones.Size = new System.Drawing.Size(784, 367);
             this.dgvOperaciones.TabIndex = 37;
             // 
-            // FormBuscar
+            // FormBusqueda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1101, 427);
+            this.ClientSize = new System.Drawing.Size(1101, 406);
             this.Controls.Add(this.dgvOperaciones);
             this.Controls.Add(this.lbResultados);
             this.Controls.Add(this.groupBox5);
@@ -307,9 +307,9 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "FormBuscar";
+            this.Name = "FormBusqueda";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Búsqueda";
+            this.Text = "Búsqueda avanzada";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbBusqueda.ResumeLayout(false);
@@ -328,7 +328,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox tbDatos;
+        private System.Windows.Forms.TextBox tbCiudad;
         private System.Windows.Forms.RadioButton rbOrigen;
         private System.Windows.Forms.RadioButton rbDestino;
         private System.Windows.Forms.GroupBox groupBox1;
