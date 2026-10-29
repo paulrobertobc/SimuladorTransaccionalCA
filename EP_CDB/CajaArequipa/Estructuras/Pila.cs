@@ -19,31 +19,31 @@ namespace EP_CDB.CajaArequipa.Estructuras
                 s = null;
             }
         }
-        private Nodo cima;
+        private Nodo laCima;
         public int cont { get; private set; }
         public void Apilar(Transaccion transac)
         {
             Nodo nuevo = new Nodo(transac);
-            nuevo.s = cima;
-            cima = nuevo;
+            nuevo.s = laCima;
+            laCima = nuevo;
             cont++;
         }
         public Transaccion Desapilar()
         {
             if (esVacio()) return null;
-            Transaccion transac = cima.dato;
-            cima = cima.s;
+            Transaccion transac = laCima.dato;
+            laCima = laCima.s;
             cont--;
             return transac;
         }
         public Transaccion Peek()
         {
             if (esVacio()) return null;
-            return cima.dato;
+            return laCima.dato;
         }
         public IEnumerator<Transaccion> GetEnumerator()//le ponemos el get enumerator para que a futuro se pueda usar en foreach
         {
-            Nodo actual = cima;
+            Nodo actual = laCima;
             while (actual != null)
             {
                 yield return actual.dato;
@@ -54,6 +54,6 @@ namespace EP_CDB.CajaArequipa.Estructuras
         {
             return GetEnumerator();
         }
-        public bool esVacio() => cima == null;
+        public bool esVacio() => laCima == null;
     }
 }

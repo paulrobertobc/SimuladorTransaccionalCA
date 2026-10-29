@@ -36,29 +36,25 @@ namespace EP_CDB.CajaArequipa.Servicios
         {
             int cantidadInicial = laCola.cont;
 
-            for (int i = 0; i < cantidadInicial; i++)
-            {
-                Transaccion transaccion = laCola.Desencolar();
-                if (transaccion == null) return null;
+            Transaccion transaccion = laCola.Desencolar();
+            if (transaccion == null) return null;
 
-                if (transaccion.Tipo == TipoTransaccion.Transferencia || transaccion.Tipo == TipoTransaccion.Abono ||
-                    transaccion.Tipo == TipoTransaccion.Retiro)
+            if (transaccion.Tipo == TipoTransaccion.Transferencia || transaccion.Tipo == TipoTransaccion.Abono ||
+                transaccion.Tipo == TipoTransaccion.Retiro)// las transferencias requieren conectividad
+            {
+                bool puedeSincronizar = elGrafo.ExisteCaminoConectado(transaccion.Origen, transaccion.Destino);
+                if (!puedeSincronizar)
                 {
-                    bool puedeSincronizar = elGrafo.ExisteCaminoConectado(transaccion.Origen,transaccion.Destino);
-                    if (!puedeSincronizar)
-                    {
-                        laCola.Encolar(transaccion);
-                        MessageBox.Show($"No existe ruta entre {transaccion.Origen} y {transaccion.Destino}");
-                        continue;
-                    }
+                    laCola.Encolar(transaccion);// sigue pendiente y vuelve al final de la cola
+                    MessageBox.Show($"No existe ruta entre {transaccion.Origen} y {transaccion.Destino}");
+                    return null;
                 }
-                transaccion.Estado = EstadoTransaccion.Procesada;
-                elArbol.Insertar(transaccion);
-                laPila.Apilar(transaccion);
-                totalProcesadas++;
-                return transaccion;
             }
-            return null;
+            transaccion.Estado = EstadoTransaccion.Procesada;
+            elArbol.Insertar(transaccion);
+            laPila.Apilar(transaccion);
+            totalProcesadas++;
+            return transaccion;
         }
         public int hacerTodo()
         {
@@ -71,13 +67,13 @@ namespace EP_CDB.CajaArequipa.Servicios
                 if (transaccion == null) continue;
 
                 if (transaccion.Tipo == TipoTransaccion.Transferencia || transaccion.Tipo == TipoTransaccion.Abono 
-                    || transaccion.Tipo == TipoTransaccion.Retiro) // las transferencias requieren conectividad
+                    || transaccion.Tipo == TipoTransaccion.Retiro)// las transferencias requieren conectividad
                 {
                     bool puedeSincronizar = elGrafo.ExisteCaminoConectado(transaccion.Origen,transaccion.Destino);
 
                     if (!puedeSincronizar)
                     {
-                        laCola.Encolar(transaccion); // sigue pendiente y vuelve al final de la cola
+                        laCola.Encolar(transaccion);// sigue pendiente y vuelve al final de la cola
                         continue;
                     }
                 }

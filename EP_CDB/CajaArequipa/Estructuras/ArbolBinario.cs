@@ -21,10 +21,10 @@ namespace EP_CDB.CajaArequipa.Estructuras
                 der = null;
             }
         }
-        private Nodo raiz;
+        private Nodo laRaiz;
         public void Insertar(Transaccion transaccion)
         {
-            raiz = InsertarRecursivo(raiz, transaccion);
+            laRaiz = InsertarRecursivo(laRaiz, transaccion);
         }
         private Nodo InsertarRecursivo(Nodo nodo,Transaccion transaccion)
         {
@@ -36,7 +36,7 @@ namespace EP_CDB.CajaArequipa.Estructuras
         }
         public Transaccion Buscar(string codigo)
         {
-            Nodo actual = raiz;
+            Nodo actual = laRaiz;
             while (actual != null)
             {
                 int comparacion = string.Compare(codigo,actual.dato.Codigo,StringComparison.OrdinalIgnoreCase);
@@ -49,7 +49,7 @@ namespace EP_CDB.CajaArequipa.Estructuras
         public List<Transaccion> getDatosEnOrden()
         {
             List<Transaccion> resultado = new List<Transaccion>();
-            RecorrerInOrden(raiz, resultado);
+            RecorrerInOrden(laRaiz, resultado);
             return resultado;
         }
         private void RecorrerInOrden(Nodo nodo, List<Transaccion> resultado)
@@ -82,8 +82,8 @@ namespace EP_CDB.CajaArequipa.Estructuras
         }
         public void Vaciar()
         {
-            raiz = null;
+            laRaiz = null;
         }
-        public bool esVacio() => raiz == null;
+        public bool esVacio() => laRaiz == null;
     }
 }

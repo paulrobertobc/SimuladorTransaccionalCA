@@ -35,6 +35,6 @@ namespace EP_CDB.CajaArequipa.Modelos
             Estado = estado;
             Fecha = fecha;
         }
-        public override string ToString() => $"¬ [{Codigo}] | {Origen} => {Destino} | {Tipo} | S/{Monto:N2} | {Estado}";
+        public override string ToString() => $"¬ [{Codigo}] | {Origen} => {Destino}\t| {Tipo}\t| S/{Monto:N2}\t| {Estado}";
     }
 }

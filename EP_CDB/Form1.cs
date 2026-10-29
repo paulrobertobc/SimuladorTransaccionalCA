@@ -17,6 +17,7 @@ namespace EP_CDB
     public partial class Form1 : Form
     {
         private Procesador procesador;
+        Random random = new Random();
         public Form1()
         {
             InitializeComponent();
@@ -49,16 +50,6 @@ namespace EP_CDB
         }
         private Transaccion crearTransaccion()
         {
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text.Trim()))
-            {
-                MessageBox.Show("Ingrese el código de la operación.");
-                return null;
-            }
-            if (procesador.buscar(txtCodigo.Text.Trim()) != null)
-            {
-                MessageBox.Show("El código de operación ya existe.");
-                return null;
-            }
             if (!double.TryParse(txtMonto.Text,out double monto))
             {
                 MessageBox.Show("Ingrese un monto válido.");
@@ -79,15 +70,16 @@ namespace EP_CDB
                 MessageBox.Show("Ingrese la agencia de destino.");
                 return null;
             }
+            string codigo = generarCodigoUnico();
             bool conexion = txtOrigen.Text.Trim() == txtDestino.Text.Trim();
             TipoTransaccion tipo;
             if (cbTipo.SelectedIndex == 0) tipo = TipoTransaccion.Abono;
             else if (cbTipo.SelectedIndex == 1) tipo = TipoTransaccion.Retiro;
             else tipo = TipoTransaccion.Transferencia;
-
             DateTime fecha = fecha = DTPFecha.Value;
+
             procesador.elGrafo.agregarRuta(txtOrigen.Text.Trim(), txtDestino.Text.Trim(), conexion);
-            return new Transaccion(txtCodigo.Text.Trim(),txtOrigen.Text.Trim(),txtDestino.Text.Trim(),monto,tipo,
+            return new Transaccion(codigo,txtOrigen.Text.Trim(),txtDestino.Text.Trim(),monto,tipo,
                 EstadoTransaccion.Pendiente,fecha);
         }
 
@@ -96,14 +88,12 @@ namespace EP_CDB
             Transaccion nuevo = crearTransaccion();
             if (nuevo == null) return;
             procesador.recibirTransaccion(nuevo);
-            txtCodigo.Clear();
             txtMonto.Clear();
             txtOrigen.Clear();
             txtDestino.Clear();
             cbTipo.SelectedIndex = 0;
-            txtCodigo.Focus();
             ActualizarInterfaz();
-            MessageBox.Show($"Operación {nuevo.Codigo} " + $"agregada a la cola.");
+            MessageBox.Show($"Operación agregada a la cola. Código: {nuevo.Codigo}");
         }
         public void ActualizarInterfaz()
         {
@@ -147,9 +137,13 @@ namespace EP_CDB
         {
             int cantidad = procesador.hacerTodo();
             ActualizarInterfaz();
-            MessageBox.Show($"Procesamiento completado.\n\n" + $"Operaciones procesadas: {cantidad}");
+            if (cantidad == 0)
+            {
+                MessageBox.Show("No se procesó ninguna.\nRevise las conexiones de las rutas.");
+            }
+            else MessageBox.Show($"Procesamiento completado.\nOperaciones procesadas: {cantidad}");
         }
-        private string generarCodigoUnico(Random random)
+        private string generarCodigoUnico()
         {
             string codigo;
             do
@@ -177,13 +171,12 @@ namespace EP_CDB
             if (r == DialogResult.Yes)
             {
                 Stopwatch reloj = new Stopwatch();
-                Random random = new Random();
                 DateTime ahora = DateTime.Now;
                 List<string> agencias = procesador.elGrafo.ObtenerCiudades();
                 reloj.Start();
                 for (int i = 1; i <= 10000; i++) //aqui empezamos la simulacion
                 {
-                    string codigo = generarCodigoUnico(random);
+                    string codigo = generarCodigoUnico();
                     string origen = null;
                     string destino = null;
                     do

@@ -229,6 +229,7 @@ namespace EP_CDB
             cbTipo.SelectedIndex = cbEstados.SelectedIndex = cbMMI.SelectedIndex = - 1;
             columnaActiva = "";
             LlenadoDTG(resultadosActuales);
+            MessageBox.Show("Filtros reiniciados.");
         }
     }
 }

@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.lblCodigo = new System.Windows.Forms.Label();
-            this.txtCodigo = new System.Windows.Forms.TextBox();
             this.lblMonto = new System.Windows.Forms.Label();
             this.txtMonto = new System.Windows.Forms.TextBox();
             this.lblOrigen = new System.Windows.Forms.Label();
@@ -70,26 +68,10 @@
             this.gpNoti.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblCodigo
-            // 
-            this.lblCodigo.AutoSize = true;
-            this.lblCodigo.Location = new System.Drawing.Point(17, 29);
-            this.lblCodigo.Name = "lblCodigo";
-            this.lblCodigo.Size = new System.Drawing.Size(40, 13);
-            this.lblCodigo.TabIndex = 0;
-            this.lblCodigo.Text = "Codigo";
-            // 
-            // txtCodigo
-            // 
-            this.txtCodigo.Location = new System.Drawing.Point(63, 26);
-            this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(100, 20);
-            this.txtCodigo.TabIndex = 1;
-            // 
             // lblMonto
             // 
             this.lblMonto.AutoSize = true;
-            this.lblMonto.Location = new System.Drawing.Point(17, 106);
+            this.lblMonto.Location = new System.Drawing.Point(26, 49);
             this.lblMonto.Name = "lblMonto";
             this.lblMonto.Size = new System.Drawing.Size(37, 13);
             this.lblMonto.TabIndex = 2;
@@ -97,7 +79,7 @@
             // 
             // txtMonto
             // 
-            this.txtMonto.Location = new System.Drawing.Point(63, 103);
+            this.txtMonto.Location = new System.Drawing.Point(72, 46);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(100, 20);
             this.txtMonto.TabIndex = 3;
@@ -105,7 +87,7 @@
             // lblOrigen
             // 
             this.lblOrigen.AutoSize = true;
-            this.lblOrigen.Location = new System.Drawing.Point(12, 55);
+            this.lblOrigen.Location = new System.Drawing.Point(21, 22);
             this.lblOrigen.Name = "lblOrigen";
             this.lblOrigen.Size = new System.Drawing.Size(38, 13);
             this.lblOrigen.TabIndex = 4;
@@ -113,7 +95,7 @@
             // 
             // txtOrigen
             // 
-            this.txtOrigen.Location = new System.Drawing.Point(63, 52);
+            this.txtOrigen.Location = new System.Drawing.Point(72, 19);
             this.txtOrigen.Name = "txtOrigen";
             this.txtOrigen.Size = new System.Drawing.Size(100, 20);
             this.txtOrigen.TabIndex = 5;
@@ -121,7 +103,7 @@
             // lblDestino
             // 
             this.lblDestino.AutoSize = true;
-            this.lblDestino.Location = new System.Drawing.Point(12, 81);
+            this.lblDestino.Location = new System.Drawing.Point(203, 22);
             this.lblDestino.Name = "lblDestino";
             this.lblDestino.Size = new System.Drawing.Size(43, 13);
             this.lblDestino.TabIndex = 6;
@@ -129,7 +111,7 @@
             // 
             // txtDestino
             // 
-            this.txtDestino.Location = new System.Drawing.Point(63, 78);
+            this.txtDestino.Location = new System.Drawing.Point(254, 19);
             this.txtDestino.Name = "txtDestino";
             this.txtDestino.Size = new System.Drawing.Size(100, 20);
             this.txtDestino.TabIndex = 7;
@@ -137,7 +119,7 @@
             // lblTipo
             // 
             this.lblTipo.AutoSize = true;
-            this.lblTipo.Location = new System.Drawing.Point(17, 132);
+            this.lblTipo.Location = new System.Drawing.Point(26, 75);
             this.lblTipo.Name = "lblTipo";
             this.lblTipo.Size = new System.Drawing.Size(28, 13);
             this.lblTipo.TabIndex = 8;
@@ -146,54 +128,54 @@
             // cbTipo
             // 
             this.cbTipo.FormattingEnabled = true;
-            this.cbTipo.Location = new System.Drawing.Point(63, 129);
+            this.cbTipo.Location = new System.Drawing.Point(72, 72);
             this.cbTipo.Name = "cbTipo";
             this.cbTipo.Size = new System.Drawing.Size(100, 21);
             this.cbTipo.TabIndex = 9;
             // 
             // btnEncolar
             // 
-            this.btnEncolar.Location = new System.Drawing.Point(222, 106);
+            this.btnEncolar.Location = new System.Drawing.Point(325, 76);
             this.btnEncolar.Name = "btnEncolar";
-            this.btnEncolar.Size = new System.Drawing.Size(103, 23);
+            this.btnEncolar.Size = new System.Drawing.Size(129, 23);
             this.btnEncolar.TabIndex = 10;
-            this.btnEncolar.Text = "Encolar";
+            this.btnEncolar.Text = "Encolar operación";
             this.btnEncolar.UseVisualStyleBackColor = true;
             this.btnEncolar.Click += new System.EventHandler(this.btnEncolar_Click);
             // 
             // btnProcesar
             // 
-            this.btnProcesar.Location = new System.Drawing.Point(12, 207);
+            this.btnProcesar.Location = new System.Drawing.Point(12, 150);
             this.btnProcesar.Name = "btnProcesar";
-            this.btnProcesar.Size = new System.Drawing.Size(120, 23);
+            this.btnProcesar.Size = new System.Drawing.Size(158, 23);
             this.btnProcesar.TabIndex = 11;
-            this.btnProcesar.Text = "Procesar siguiente";
+            this.btnProcesar.Text = "Procesar siguiente operación";
             this.btnProcesar.UseVisualStyleBackColor = true;
             this.btnProcesar.Click += new System.EventHandler(this.btnProcesar_Click);
             // 
             // btnProcesarTodo
             // 
-            this.btnProcesarTodo.Location = new System.Drawing.Point(138, 208);
+            this.btnProcesarTodo.Location = new System.Drawing.Point(184, 150);
             this.btnProcesarTodo.Name = "btnProcesarTodo";
-            this.btnProcesarTodo.Size = new System.Drawing.Size(112, 23);
+            this.btnProcesarTodo.Size = new System.Drawing.Size(147, 23);
             this.btnProcesarTodo.TabIndex = 12;
-            this.btnProcesarTodo.Text = "Procesar TODO";
+            this.btnProcesarTodo.Text = "Procesar todas pendientes";
             this.btnProcesarTodo.UseVisualStyleBackColor = true;
             this.btnProcesarTodo.Click += new System.EventHandler(this.btnProcesarTodo_Click);
             // 
             // btnRevertir
             // 
-            this.btnRevertir.Location = new System.Drawing.Point(256, 207);
+            this.btnRevertir.Location = new System.Drawing.Point(354, 150);
             this.btnRevertir.Name = "btnRevertir";
-            this.btnRevertir.Size = new System.Drawing.Size(154, 23);
+            this.btnRevertir.Size = new System.Drawing.Size(137, 23);
             this.btnRevertir.TabIndex = 13;
-            this.btnRevertir.Text = "Revertir última operación";
+            this.btnRevertir.Text = "Revertir la última";
             this.btnRevertir.UseVisualStyleBackColor = true;
             this.btnRevertir.Click += new System.EventHandler(this.btnRevertir_Click);
             // 
             // btnSimularPico
             // 
-            this.btnSimularPico.Location = new System.Drawing.Point(1106, 72);
+            this.btnSimularPico.Location = new System.Drawing.Point(1172, 80);
             this.btnSimularPico.Name = "btnSimularPico";
             this.btnSimularPico.Size = new System.Drawing.Size(90, 87);
             this.btnSimularPico.TabIndex = 15;
@@ -205,27 +187,27 @@
             // 
             this.lstCola.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lstCola.FormattingEnabled = true;
-            this.lstCola.Location = new System.Drawing.Point(12, 257);
+            this.lstCola.Location = new System.Drawing.Point(12, 199);
             this.lstCola.Name = "lstCola";
-            this.lstCola.Size = new System.Drawing.Size(398, 121);
+            this.lstCola.Size = new System.Drawing.Size(479, 121);
             this.lstCola.TabIndex = 16;
             // 
             // lstPila
             // 
             this.lstPila.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lstPila.FormattingEnabled = true;
-            this.lstPila.Location = new System.Drawing.Point(12, 415);
+            this.lstPila.Location = new System.Drawing.Point(12, 351);
             this.lstPila.Name = "lstPila";
-            this.lstPila.Size = new System.Drawing.Size(398, 121);
+            this.lstPila.Size = new System.Drawing.Size(479, 121);
             this.lstPila.TabIndex = 17;
             // 
             // dgvOperaciones
             // 
             this.dgvOperaciones.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvOperaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOperaciones.Location = new System.Drawing.Point(431, 224);
+            this.dgvOperaciones.Location = new System.Drawing.Point(497, 224);
             this.dgvOperaciones.Name = "dgvOperaciones";
-            this.dgvOperaciones.Size = new System.Drawing.Size(765, 369);
+            this.dgvOperaciones.Size = new System.Drawing.Size(765, 305);
             this.dgvOperaciones.TabIndex = 18;
             // 
             // lblRecibidas
@@ -240,7 +222,7 @@
             // lblProcesadas
             // 
             this.lblProcesadas.AutoSize = true;
-            this.lblProcesadas.Location = new System.Drawing.Point(203, 26);
+            this.lblProcesadas.Location = new System.Drawing.Point(241, 26);
             this.lblProcesadas.Name = "lblProcesadas";
             this.lblProcesadas.Size = new System.Drawing.Size(63, 13);
             this.lblProcesadas.TabIndex = 22;
@@ -249,7 +231,7 @@
             // lblPendientes
             // 
             this.lblPendientes.AutoSize = true;
-            this.lblPendientes.Location = new System.Drawing.Point(103, 26);
+            this.lblPendientes.Location = new System.Drawing.Point(112, 26);
             this.lblPendientes.Name = "lblPendientes";
             this.lblPendientes.Size = new System.Drawing.Size(60, 13);
             this.lblPendientes.TabIndex = 23;
@@ -258,7 +240,7 @@
             // lblRevertidas
             // 
             this.lblRevertidas.AutoSize = true;
-            this.lblRevertidas.Location = new System.Drawing.Point(297, 26);
+            this.lblRevertidas.Location = new System.Drawing.Point(370, 26);
             this.lblRevertidas.Name = "lblRevertidas";
             this.lblRevertidas.Size = new System.Drawing.Size(50, 13);
             this.lblRevertidas.TabIndex = 24;
@@ -267,7 +249,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 241);
+            this.label1.Location = new System.Drawing.Point(9, 183);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 25;
@@ -276,7 +258,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 391);
+            this.label2.Location = new System.Drawing.Point(9, 327);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 13);
             this.label2.TabIndex = 26;
@@ -285,7 +267,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(428, 208);
+            this.label3.Location = new System.Drawing.Point(494, 208);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 13);
             this.label3.TabIndex = 27;
@@ -295,8 +277,6 @@
             // 
             this.gpRegistro.Controls.Add(this.label4);
             this.gpRegistro.Controls.Add(this.DTPFecha);
-            this.gpRegistro.Controls.Add(this.lblCodigo);
-            this.gpRegistro.Controls.Add(this.txtCodigo);
             this.gpRegistro.Controls.Add(this.lblMonto);
             this.gpRegistro.Controls.Add(this.lblOrigen);
             this.gpRegistro.Controls.Add(this.txtOrigen);
@@ -308,7 +288,7 @@
             this.gpRegistro.Controls.Add(this.btnEncolar);
             this.gpRegistro.Location = new System.Drawing.Point(12, 36);
             this.gpRegistro.Name = "gpRegistro";
-            this.gpRegistro.Size = new System.Drawing.Size(398, 161);
+            this.gpRegistro.Size = new System.Drawing.Size(479, 108);
             this.gpRegistro.TabIndex = 28;
             this.gpRegistro.TabStop = false;
             this.gpRegistro.Text = "Nueva operacion";
@@ -316,7 +296,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(179, 52);
+            this.label4.Location = new System.Drawing.Point(203, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 13);
             this.label4.TabIndex = 13;
@@ -324,7 +304,7 @@
             // 
             // DTPFecha
             // 
-            this.DTPFecha.Location = new System.Drawing.Point(182, 67);
+            this.DTPFecha.Location = new System.Drawing.Point(254, 49);
             this.DTPFecha.Name = "DTPFecha";
             this.DTPFecha.Size = new System.Drawing.Size(200, 20);
             this.DTPFecha.TabIndex = 11;
@@ -332,7 +312,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(431, 36);
+            this.pictureBox1.Location = new System.Drawing.Point(497, 44);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(669, 161);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -348,7 +328,7 @@
             this.acercaDeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1210, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1279, 24);
             this.menuStrip1.TabIndex = 32;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -379,9 +359,9 @@
             this.gpNoti.Controls.Add(this.lblRecibidas);
             this.gpNoti.Controls.Add(this.lblPendientes);
             this.gpNoti.Controls.Add(this.lblProcesadas);
-            this.gpNoti.Location = new System.Drawing.Point(12, 542);
+            this.gpNoti.Location = new System.Drawing.Point(12, 478);
             this.gpNoti.Name = "gpNoti";
-            this.gpNoti.Size = new System.Drawing.Size(398, 51);
+            this.gpNoti.Size = new System.Drawing.Size(479, 51);
             this.gpNoti.TabIndex = 31;
             this.gpNoti.TabStop = false;
             this.gpNoti.Text = "Estado";
@@ -391,7 +371,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(1210, 608);
+            this.ClientSize = new System.Drawing.Size(1279, 541);
             this.Controls.Add(this.gpNoti);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.gpRegistro);
@@ -423,9 +403,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblCodigo;
-        private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label lblMonto;
         private System.Windows.Forms.TextBox txtMonto;
         private System.Windows.Forms.Label lblOrigen;
