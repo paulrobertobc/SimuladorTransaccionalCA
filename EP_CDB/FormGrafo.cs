@@ -21,7 +21,7 @@ namespace EP_CDB
             this.procesador = procesador;
             ActualizarListaRutasGrafo();
         }
-        private void btnConsultaRutas_Click(object sender, EventArgs e)
+        private void btnConsultaRutas_Click(object sender, EventArgs e) // consultamos las rutas en el grafo
         {
             if (cbAgenciaGrafo.SelectedItem == null)
             {
@@ -29,9 +29,9 @@ namespace EP_CDB
                 return;
             }
             string agencia = cbAgenciaGrafo.SelectedItem.ToString();
-            List<Ruta> rutas = procesador.elGrafo.ObtenerTodasLasRutas();
+            List<Ruta> rutas = procesador.elGrafo.ObtenerTodasLasRutas(); //obtenemos las rutas del grafo
             lstRutasGrafo.Items.Clear();
-            foreach (Ruta ruta in rutas)
+            foreach (Ruta ruta in rutas) //identificamos y las agregamos al listview
             {
                 if (ruta.Origen.Equals(agencia,StringComparison.OrdinalIgnoreCase) 
                     || ruta.Destino.Equals(agencia,StringComparison.OrdinalIgnoreCase))
@@ -39,9 +39,8 @@ namespace EP_CDB
                     lstRutasGrafo.Items.Add(ruta.ToString());
                 }
             }
-            if (lstRutasGrafo.Items.Count == 0) lstRutasGrafo.Items.Add("Esta agencia no tiene rutas registradas.");
         }
-        private void btnAlternarConexion_Click(object sender, EventArgs e)
+        private void btnAlternarConexion_Click(object sender, EventArgs e) //aqui cambiamos la conexion de las rutas
         {
             if (lstRutasGrafo.SelectedItem == null)
             {
@@ -51,7 +50,7 @@ namespace EP_CDB
 
             string textoSeleccionado = lstRutasGrafo.SelectedItem.ToString();
             List<Ruta> rutas = procesador.elGrafo.ObtenerTodasLasRutas();
-            Ruta rutaSeleccionada = rutas.Find(p => p.ToString() == textoSeleccionado);
+            Ruta rutaSeleccionada = rutas.Find(p => p.ToString() == textoSeleccionado);//sacamos la ruta que tengan conexion con el textbox
 
             if (rutaSeleccionada == null)
             {
@@ -59,7 +58,7 @@ namespace EP_CDB
                 return;
             }
 
-            bool nuevoEstado = !rutaSeleccionada.EstaConectada;
+            bool nuevoEstado = !rutaSeleccionada.EstaConectada;//identificamos su estado y llamamos al metodo para que le cambie la conexion
             procesador.elGrafo.cambiarEstadoRuta(rutaSeleccionada.Origen,rutaSeleccionada.Destino,nuevoEstado);
 
             ActualizarListaRutasGrafo();
@@ -74,7 +73,7 @@ namespace EP_CDB
             fcc.ShowDialog();
             ActualizarListaRutasGrafo();
         }
-        private void ActualizarListaRutasGrafo()
+        private void ActualizarListaRutasGrafo()// llenamos el listview y el combobox con los datos actualizados
         {
             cbAgenciaGrafo.Items.Clear();
             foreach (string agencia in procesador.elGrafo.ObtenerAgencias())

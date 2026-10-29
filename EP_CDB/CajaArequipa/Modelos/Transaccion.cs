@@ -23,18 +23,18 @@ namespace EP_CDB.CajaArequipa.Modelos
         public double Monto { get; set; }
         public TipoTransaccion Tipo { get; set; }
         public EstadoTransaccion Estado { get; set; }
-        public DateTime Fecha { get; set; }
-        public Transaccion(string codigo, string origen, string destino, double monto, TipoTransaccion tipo,EstadoTransaccion estado,
+        public DateTime fecha { get; set; }
+        public Transaccion(string Codigo, string Origen, string Destino, double Monto, TipoTransaccion Tipo,EstadoTransaccion Estado,
             DateTime fecha)
         {
-            Codigo = codigo;
-            Origen = origen;
-            Destino = destino;
-            Monto = monto;
-            Tipo = tipo;
-            Estado = estado;
-            Fecha = fecha;
+            this.Codigo = Codigo;
+            this.Origen = Origen;
+            this.Destino = Destino;
+            this.Monto = Monto;
+            this.Tipo = Tipo;
+            this.Estado = Estado;
+            this.fecha = fecha;
         }
-        public override string ToString() => $"¬ [{Codigo}] | {Origen} => {Destino}\t| {Tipo}\t| S/{Monto:N2}\t| {Estado}";
+        public override string ToString() => $"¬ {Codigo} | {Origen} => {Destino}\t| {Tipo}\t| S/{Monto:N2}\t| {Estado}";
     }
 }

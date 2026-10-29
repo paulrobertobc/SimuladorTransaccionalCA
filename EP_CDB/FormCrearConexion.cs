@@ -20,7 +20,7 @@ namespace EP_CDB
             InitializeComponent();
             this.procesador = procesador;
         }
-        private void btnCrear_Click(object sender, EventArgs e)
+        private void btnCrear_Click(object sender, EventArgs e) // aqui vamos a crear una conexion y lo agregaremos al grafo
         {
             string origen = tbOrigen.Text.Trim();
             string destino = tbDestino.Text.Trim();
@@ -35,17 +35,17 @@ namespace EP_CDB
                 return;
             }
             bool puedeSincronizar = procesador.elGrafo.ExisteCaminoConectado(origen, destino);
-            if (puedeSincronizar)
+            if (puedeSincronizar)//si ya existe camino muestra el mensaje y sale del form
             {
                 MessageBox.Show($"Ya existe camino entre {tbOrigen.Text} y {tbDestino.Text}");
                 return;
             }
-            if (rbSI.Checked == true)
+            if (rbSI.Checked == true)//crear una conexion activada
             {
                 procesador.elGrafo.agregarRuta(origen, destino, true);
                 MessageBox.Show($"Ruta creada de {origen} a {destino} con conexion activa.");
             }
-            else if (rbNO.Checked == true)
+            else if (rbNO.Checked == true)//crear una conexion desactivada
             {
                 procesador.elGrafo.agregarRuta(origen, destino, false);
                 MessageBox.Show($"Ruta creada de {origen} a {destino} con conexion desactivada.");

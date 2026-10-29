@@ -14,22 +14,23 @@ namespace EP_CDB
 {
     public partial class FormBusqueda : Form
     {
+        //AQUI VAMOS A APROVECHAR AL MAXIMO EL SOPORTE CON LINQ QUE LE DIMOS A NUESTRAS ESTRUCTURAS
         private Procesador procesador;
         private DateTime fechaElegida;
         //private IEnumerable<Transaccion> resultadosGlobales;
-        private IEnumerable<Transaccion> resultadosActuales;
-        private string columnaActiva = ""; //con esto podremos pintar luego algunas columnas del dgv
+        private IEnumerable<Transaccion> resultadosActuales; //aqui guardamos los resultados con filtros aplicados mas abajo
+        private string columnaActiva = ""; //con esto podremos pintar luego algunas columnas del dgv con lo seleccionado
         public FormBusqueda(Procesador procesador)
         {
             InitializeComponent();
             dgvOperaciones.CellFormatting += dgvOperaciones_CellFormatting;
             this.procesador = procesador;
-            resultadosActuales = EstructurasUnidas();
+            resultadosActuales = EstructurasUnidas(); //los resultadosActuales empezaran siendo las dos estructuras unidas (o sea todo)
 
             dgvOperaciones.AutoGenerateColumns = false;
             dgvOperaciones.ReadOnly = true;
             dgvOperaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvOperaciones.Columns.Clear(); // hacemos las columnas una sola vez al arrancar el formulario
+            dgvOperaciones.Columns.Clear();//agregamos las columnas al dgv
             dgvOperaciones.Columns.Add("Codigo", "Código");
             dgvOperaciones.Columns.Add("Origen", "Origen");
             dgvOperaciones.Columns.Add("Destino", "Destino");
@@ -58,11 +59,11 @@ namespace EP_CDB
 
             LlenadoDTG(resultadosActuales);
         }
-        private IEnumerable<Transaccion> EstructurasUnidas()//con esto unificamos la busqueda con el arbol y la cola
+        private IEnumerable<Transaccion> EstructurasUnidas()//con esto unificamos la busqueda con el arbol(procesados) y la cola(pendientes)
         {
             return procesador.elArbol.Concat(procesador.laCola);
         }
-        private void btnBuscarCiudad_Click(object sender, EventArgs e)
+        private void btnBuscarCiudad_Click(object sender, EventArgs e)//buscamos por ciudad
         {
             string c = tbCiudad.Text.Trim();
             if (string.IsNullOrWhiteSpace(c))
@@ -72,7 +73,8 @@ namespace EP_CDB
             }
             var resultados = resultadosActuales.Where(t =>
             {
-                if (rbOrigen.Checked) return t.Origen.Trim().Equals(c, StringComparison.OrdinalIgnoreCase);
+                //buscamos por origen o por destino
+                if (rbOrigen.Checked) return t.Origen.Trim().Equals(c, StringComparison.OrdinalIgnoreCase); 
                 else if (rbDestino.Checked) return t.Destino.Trim().Equals(c, StringComparison.OrdinalIgnoreCase);
 
                 return false;
@@ -83,9 +85,9 @@ namespace EP_CDB
                 lbResultados.Text = "Resultados de la búsqueda: No se encontraron transacciones para esa ciudad";
                 return;
             }
-            resultadosActuales = resultados;
-            columnaActiva = rbOrigen.Checked ? "Origen" : "Destino";
-            LlenadoDTG(resultadosActuales);
+            resultadosActuales = resultados; //reemplazamos resultadosActuales con los filtros aplicados
+            columnaActiva = rbOrigen.Checked ? "Origen" : "Destino"; //le damos a columnaActiva un nombre para que se pinte el dgv
+            LlenadoDTG(resultadosActuales); //lamamos al metodo para llenar el dgv con los resultados con filtros aplicados
         }
         private void btnBuscarCod_Click(object sender, EventArgs e)
         {
@@ -97,8 +99,8 @@ namespace EP_CDB
             }
 
             Transaccion buscado;
-            if (checkBoxIgnorar.Checked) buscado = procesador.buscar(codigo);
-            else buscado = resultadosActuales.FirstOrDefault(t => t.Codigo.Equals(codigo, StringComparison.OrdinalIgnoreCase));
+            if (checkBoxIgnorar.Checked) buscado = procesador.buscar(codigo); //aprovechamos nuestro arbol binario si buscamos en todo, sino
+            else buscado = resultadosActuales.FirstOrDefault(t => t.Codigo.Equals(codigo, StringComparison.OrdinalIgnoreCase));//usamos linq
 
             if (buscado != null)
             {
@@ -117,7 +119,7 @@ namespace EP_CDB
                 lbResultados.Text = "Resultados de la búsqueda: Ingrese un monto válido";
                 return;
             }
-
+            //filtramos por monto unificando el switch con el where para hacerlo más eficaz (use un codigo que soporte C# 7.3)
             var resultados = resultadosActuales.Where(t =>
             {
                 switch (cbMMI.SelectedIndex)
@@ -128,7 +130,6 @@ namespace EP_CDB
                     default: return false;
                 }
             });
-
             if (!resultados.Any())
             {
                 dgvOperaciones.Rows.Clear();
@@ -142,7 +143,7 @@ namespace EP_CDB
         private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
             dgvOperaciones.Rows.Clear();
-            resultadosActuales = TiposSeleccionados(resultadosActuales);
+            resultadosActuales = TiposSeleccionados(resultadosActuales); //llamamos al metodo que dara resultados con el tipo seleccionado
             if (!resultadosActuales.Any())
             {
                 dgvOperaciones.Rows.Clear();
@@ -193,42 +194,42 @@ namespace EP_CDB
         }
         private void DTPFecha_ValueChanged(object sender, EventArgs e)
         { 
-            fechaElegida = DTPFecha.Value.Date;
-            resultadosActuales = resultadosActuales.Where(p => p.Fecha.Date.Equals(fechaElegida));
+            fechaElegida = DTPFecha.Value.Date; //fijamos la fecha global con lo que ponemos en el dtp para resultados precisos
+            resultadosActuales = resultadosActuales.Where(p => p.fecha.Date.Equals(fechaElegida));// y buscamos en los resultadosActuales
             LlenadoDTG(resultadosActuales);
         }
-        public void LlenadoDTG(IEnumerable<Transaccion> r)
+        public void LlenadoDTG(IEnumerable<Transaccion> r) //aqui llenamos el dgv con los filtros que vayamos aplicando
         {
-            int t = r.Count();
+            int t = r.Count(); //obtenemos el numero de elementos que sera el numeor de resultados de la busqueda
             lbResultados.Text = $"Resultados de la búsqueda: {t} resultados.";
             dgvOperaciones.Rows.Clear();
             foreach (Transaccion d in r)
             {
                 dgvOperaciones.Rows.Add(d.Codigo,d.Origen,d.Destino,
-                    $"S/ {d.Monto:N2}",d.Tipo,d.Estado,d.Fecha.Date.ToShortDateString()
+                    $"S/ {d.Monto:N2}",d.Tipo,d.Estado,d.fecha.Date.ToShortDateString()
                 );
             }
         }
         private void dgvOperaciones_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dgvOperaciones.Columns[e.ColumnIndex].Name == columnaActiva)
+        {//con esta damos un formato para el color de la columna que hayamos filtrado en los resultados
+            if (dgvOperaciones.Columns[e.ColumnIndex].Name == columnaActiva) 
             {
                 e.CellStyle.BackColor = Color.LightBlue;
                 e.CellStyle.ForeColor = Color.Black;
                 e.CellStyle.Font = new Font(dgvOperaciones.Font, FontStyle.Bold);
             }
         }
-        private void reiniciarFiltrosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void reiniciarFiltrosToolStripMenuItem_Click(object sender, EventArgs e) //aqui reseteamos todos los filtros
         {
-            resultadosActuales = EstructurasUnidas();
-            DTPFecha.Value = DateTime.Today;
+            resultadosActuales = EstructurasUnidas(); //volvemos a llenar resultadosGlobales con todas las operaciones
+            DTPFecha.Value = DateTime.Today; //la fecha sera hoy
             tbCiudad.Clear();
             rbDestino.Checked = rbOrigen.Checked = checkBoxIgnorar.Checked = false;
             tbMonto.Clear();
             txtBusqueda.Text = "(415)";
             cbTipo.SelectedIndex = cbEstados.SelectedIndex = cbMMI.SelectedIndex = - 1;
             columnaActiva = "";
-            LlenadoDTG(resultadosActuales);
+            LlenadoDTG(resultadosActuales);// y llamamos al metodo para llenar
             MessageBox.Show("Filtros reiniciados.");
         }
     }
